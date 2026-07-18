@@ -5,47 +5,93 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
 // Export members:
-export { GetDataSourceArgs, GetDataSourceResult, GetDataSourceOutputArgs } from "./getDataSource";
-export const getDataSource: typeof import("./getDataSource").getDataSource = null as any;
-export const getDataSourceOutput: typeof import("./getDataSource").getDataSourceOutput = null as any;
-utilities.lazyLoad(exports, ["getDataSource","getDataSourceOutput"], () => require("./getDataSource"));
+export { ActionArgs, ActionState } from "./action";
+export type Action = import("./action").Action;
+export const Action: typeof import("./action").Action = null as any;
+utilities.lazyLoad(exports, ["Action"], () => require("./action"));
+
+export { GetKubernetesArgs, GetKubernetesResult, GetKubernetesOutputArgs } from "./getKubernetes";
+export const getKubernetes: typeof import("./getKubernetes").getKubernetes = null as any;
+export const getKubernetesOutput: typeof import("./getKubernetes").getKubernetesOutput = null as any;
+utilities.lazyLoad(exports, ["getKubernetes","getKubernetesOutput"], () => require("./getKubernetes"));
+
+export { GetPolicyArgs, GetPolicyResult, GetPolicyOutputArgs } from "./getPolicy";
+export const getPolicy: typeof import("./getPolicy").getPolicy = null as any;
+export const getPolicyOutput: typeof import("./getPolicy").getPolicyOutput = null as any;
+utilities.lazyLoad(exports, ["getPolicy","getPolicyOutput"], () => require("./getPolicy"));
+
+export { GetRoleArgs, GetRoleResult, GetRoleOutputArgs } from "./getRole";
+export const getRole: typeof import("./getRole").getRole = null as any;
+export const getRoleOutput: typeof import("./getRole").getRoleOutput = null as any;
+utilities.lazyLoad(exports, ["getRole","getRoleOutput"], () => require("./getRole"));
+
+export { KubernetesArgs, KubernetesState } from "./kubernetes";
+export type Kubernetes = import("./kubernetes").Kubernetes;
+export const Kubernetes: typeof import("./kubernetes").Kubernetes = null as any;
+utilities.lazyLoad(exports, ["Kubernetes"], () => require("./kubernetes"));
+
+export { MonitorArgs, MonitorState } from "./monitor";
+export type Monitor = import("./monitor").Monitor;
+export const Monitor: typeof import("./monitor").Monitor = null as any;
+utilities.lazyLoad(exports, ["Monitor"], () => require("./monitor"));
+
+export { PolicyArgs, PolicyState } from "./policy";
+export type Policy = import("./policy").Policy;
+export const Policy: typeof import("./policy").Policy = null as any;
+utilities.lazyLoad(exports, ["Policy"], () => require("./policy"));
+
+export { PolicyRoleAttachmentArgs, PolicyRoleAttachmentState } from "./policyRoleAttachment";
+export type PolicyRoleAttachment = import("./policyRoleAttachment").PolicyRoleAttachment;
+export const PolicyRoleAttachment: typeof import("./policyRoleAttachment").PolicyRoleAttachment = null as any;
+utilities.lazyLoad(exports, ["PolicyRoleAttachment"], () => require("./policyRoleAttachment"));
 
 export * from "./provider";
 import { Provider } from "./provider";
 
-export { ResourceArgs, ResourceState } from "./resource";
-export type Resource = import("./resource").Resource;
-export const Resource: typeof import("./resource").Resource = null as any;
-utilities.lazyLoad(exports, ["Resource"], () => require("./resource"));
+export { RoleArgs, RoleState } from "./role";
+export type Role = import("./role").Role;
+export const Role: typeof import("./role").Role = null as any;
+utilities.lazyLoad(exports, ["Role"], () => require("./role"));
 
 
 // Export sub-modules:
 import * as config from "./config";
-import * as region from "./region";
-import * as types from "./types";
 
 export {
     config,
-    region,
-    types,
 };
 
 const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
-            case "xyz:index/resource:Resource":
-                return new Resource(name, <any>undefined, { urn })
+            case "komodor:index/action:Action":
+                return new Action(name, <any>undefined, { urn })
+            case "komodor:index/kubernetes:Kubernetes":
+                return new Kubernetes(name, <any>undefined, { urn })
+            case "komodor:index/monitor:Monitor":
+                return new Monitor(name, <any>undefined, { urn })
+            case "komodor:index/policy:Policy":
+                return new Policy(name, <any>undefined, { urn })
+            case "komodor:index/policyRoleAttachment:PolicyRoleAttachment":
+                return new PolicyRoleAttachment(name, <any>undefined, { urn })
+            case "komodor:index/role:Role":
+                return new Role(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }
     },
 };
-pulumi.runtime.registerResourceModule("xyz", "index/resource", _module)
-pulumi.runtime.registerResourcePackage("xyz", {
+pulumi.runtime.registerResourceModule("komodor", "index/action", _module)
+pulumi.runtime.registerResourceModule("komodor", "index/kubernetes", _module)
+pulumi.runtime.registerResourceModule("komodor", "index/monitor", _module)
+pulumi.runtime.registerResourceModule("komodor", "index/policy", _module)
+pulumi.runtime.registerResourceModule("komodor", "index/policyRoleAttachment", _module)
+pulumi.runtime.registerResourceModule("komodor", "index/role", _module)
+pulumi.runtime.registerResourcePackage("komodor", {
     version: utilities.getVersion(),
     constructProvider: (name: string, type: string, urn: string): pulumi.ProviderResource => {
-        if (type !== "pulumi:providers:xyz") {
+        if (type !== "pulumi:providers:komodor") {
             throw new Error(`unknown provider type ${type}`);
         }
         return new Provider(name, <any>undefined, { urn });

@@ -5,19 +5,19 @@ runs:
   using: "composite"
   steps:
 
-    - name: Download pulumi-resource-xyz
+    - name: Download pulumi-resource-komodor
       uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
       with:
-        pattern: pulumi-resource-xyz-*-linux-amd64.tar.gz
+        pattern: pulumi-resource-komodor-*-linux-amd64.tar.gz
         path: ${{ github.workspace }}/bin
         merge-multiple: true
 
-    - name: Untar pulumi-resource-xyz
+    - name: Untar pulumi-resource-komodor
       shell: bash
       run: |
         tar -zxf ${{ github.workspace }}/bin/*amd64.tar.gz -C ${{ github.workspace}}/bin
 
-    - name: Mark pulumi-resource-xyz as executable
+    - name: Mark pulumi-resource-komodor as executable
       shell: bash
       run: |
-        find ${{ github.workspace }} -name "pulumi-*-xyz" -print -exec chmod +x {} \;
+        find ${{ github.workspace }} -name "pulumi-*-komodor" -print -exec chmod +x {} \;

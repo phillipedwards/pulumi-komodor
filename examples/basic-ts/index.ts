@@ -1,6 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as xyz from "@pulumi/xyz";
+import * as komodor from "@pulumi/komodor";
 
-const resource = new xyz.Resource("Resource", { sampleAttribute: "attr" });
+const policy = new komodor.Policy("my-policy", { name: "my-policy" });
 
-export const sampleAttribute = resource.sampleAttribute;
+export const policyId = policy.id;

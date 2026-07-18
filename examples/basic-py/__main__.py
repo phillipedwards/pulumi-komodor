@@ -13,6 +13,6 @@
 # limitations under the License.
 
 import pulumi
-import pulumi_xyz
+import pulumi_komodor
 
-resource = pulumi_xyz.Resource("Resource", sample_attribute = "attr")
+policy = pulumi_komodor.Policy("my-policy", name="my-policy")

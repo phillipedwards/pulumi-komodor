@@ -1,0 +1,50 @@
+{
+    "auto-aliasing": {
+        "resources": {
+            "komodor_action": {
+                "current": "komodor:index/action:Action",
+                "majorVersion": 1
+            },
+            "komodor_kubernetes": {
+                "current": "komodor:index/kubernetes:Kubernetes",
+                "majorVersion": 1
+            },
+            "komodor_monitor": {
+                "current": "komodor:index/monitor:Monitor",
+                "majorVersion": 1
+            },
+            "komodor_policy": {
+                "current": "komodor:index/policy:Policy",
+                "majorVersion": 1
+            },
+            "komodor_policy_role_attachment": {
+                "current": "komodor:index/policyRoleAttachment:PolicyRoleAttachment",
+                "majorVersion": 1,
+                "fields": {
+                    "policies": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "komodor_role": {
+                "current": "komodor:index/role:Role",
+                "majorVersion": 1
+            }
+        },
+        "datasources": {
+            "komodor_kubernetes": {
+                "current": "komodor:index/getKubernetes:getKubernetes",
+                "majorVersion": 1
+            },
+            "komodor_policy": {
+                "current": "komodor:index/getPolicy:getPolicy",
+                "majorVersion": 1
+            },
+            "komodor_role": {
+                "current": "komodor:index/getRole:getRole",
+                "majorVersion": 1
+            }
+        }
+    },
+    "auto-settings": {}
+}

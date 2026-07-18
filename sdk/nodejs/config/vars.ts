@@ -2,21 +2,18 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 import * as pulumi from "@pulumi/pulumi";
-import * as inputs from "../types/input";
-import * as outputs from "../types/output";
-import * as enums from "../types/enums";
 import * as utilities from "../utilities";
 
 declare var exports: any;
-const __config = new pulumi.Config("xyz");
+const __config = new pulumi.Config("komodor");
 
 /**
- * A region which should be used.
+ * The API key for operations. Alternatively, can be configured using the `KOMODOR_API_KEY` or `KOMODOR_TOKEN` environment variables.
  */
-export declare const region: enums.region.Region | undefined;
-Object.defineProperty(exports, "region", {
+export declare const apiKey: string | undefined;
+Object.defineProperty(exports, "apiKey", {
     get() {
-        return __config.getObject<enums.region.Region>("region");
+        return __config.get("apiKey");
     },
     enumerable: true,
 });
