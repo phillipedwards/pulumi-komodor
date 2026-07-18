@@ -1,4 +1,4 @@
-module github.com/pulumi/pulumi-xyz/examples
+module github.com/phillipedwards/pulumi-komodor/examples
 
 go 1.24.7
 

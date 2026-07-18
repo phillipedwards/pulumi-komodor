@@ -1,4 +1,4 @@
-module github.com/pulumi/pulumi-xyz/provider
+module github.com/phillipedwards/pulumi-komodor/provider
 
 go 1.24.7
 
@@ -7,9 +7,8 @@ toolchain go1.24.10
 replace github.com/hashicorp/terraform-plugin-sdk/v2 => github.com/pulumi/terraform-plugin-sdk/v2 v2.0.0-20250923233607-7f1981c8674a
 
 require (
+	github.com/komodorio/terraform-provider-komodor v1.0.12
 	github.com/pulumi/pulumi-terraform-bridge/v3 v3.118.0
-	github.com/pulumi/pulumi/pkg/v3 v3.209.0
-	github.com/pulumi/terraform-provider-xyz v0.0.3
 )
 
 require (
@@ -128,6 +127,7 @@ require (
 	github.com/pulumi/inflector v0.2.1 // indirect
 	github.com/pulumi/pulumi-java/pkg v1.12.0 // indirect
 	github.com/pulumi/pulumi-yaml v1.19.1 // indirect
+	github.com/pulumi/pulumi/pkg/v3 v3.209.0 // indirect
 	github.com/pulumi/pulumi/sdk/v3 v3.209.0 // indirect
 	github.com/pulumi/schema-tools v0.1.2 // indirect
 	github.com/pulumi/terraform-diff-reader v0.0.2 // indirect

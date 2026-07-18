@@ -1,0 +1,636 @@
+{
+    "name": "komodor",
+    "displayName": "Komodor",
+    "description": "A Pulumi package for creating and managing Komodor resources.",
+    "keywords": [
+        "komodor",
+        "category/cloud"
+    ],
+    "homepage": "https://www.pulumi.com",
+    "license": "Apache-2.0",
+    "attribution": "This Pulumi package is based on the [`komodor` Terraform Provider](https://github.com/komodorio/terraform-provider-komodor).",
+    "repository": "https://github.com/phillipedwards/pulumi-komodor",
+    "publisher": "Pulumi",
+    "meta": {
+        "moduleFormat": "(.*)(?:/[^/]*)"
+    },
+    "language": {
+        "csharp": {
+            "packageReferences": {
+                "Pulumi": "3.*"
+            },
+            "compatibility": "tfbridge20",
+            "respectSchemaVersion": true
+        },
+        "go": {
+            "importBasePath": "github.com/phillipedwards/pulumi-komodor/sdk/go/komodor",
+            "generateResourceContainerTypes": true,
+            "generateExtraInputTypes": true,
+            "respectSchemaVersion": true
+        },
+        "nodejs": {
+            "packageDescription": "A Pulumi package for creating and managing Komodor resources.",
+            "readme": "\u003e This provider is a derived work of the [Terraform Provider](https://github.com/komodorio/terraform-provider-komodor)\n\u003e distributed under [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/). If you encounter a bug or missing feature,\n\u003e first check the [`pulumi-komodor` repo](https://github.com/phillipedwards/pulumi-komodor/issues); however, if that doesn't turn up anything,\n\u003e please consult the source [`terraform-provider-komodor` repo](https://github.com/komodorio/terraform-provider-komodor/issues).",
+            "compatibility": "tfbridge20",
+            "disableUnionOutputTypes": true,
+            "respectSchemaVersion": true
+        },
+        "python": {
+            "readme": "\u003e This provider is a derived work of the [Terraform Provider](https://github.com/komodorio/terraform-provider-komodor)\n\u003e distributed under [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/). If you encounter a bug or missing feature,\n\u003e first check the [`pulumi-komodor` repo](https://github.com/phillipedwards/pulumi-komodor/issues); however, if that doesn't turn up anything,\n\u003e please consult the source [`terraform-provider-komodor` repo](https://github.com/komodorio/terraform-provider-komodor/issues).",
+            "compatibility": "tfbridge20",
+            "respectSchemaVersion": true,
+            "pyproject": {
+                "enabled": true
+            }
+        }
+    },
+    "config": {
+        "variables": {
+            "apiKey": {
+                "type": "string",
+                "description": "The API key for operations. Alternatively, can be configured using the `KOMODOR_API_KEY` or `KOMODOR_TOKEN` environment variables."
+            }
+        }
+    },
+    "provider": {
+        "description": "The provider type for the komodor package. By default, resources use package-wide configuration\nsettings, however an explicit `Provider` instance may be created and passed during resource\nconstruction to achieve fine-grained programmatic control over provider settings. See the\n[documentation](https://www.pulumi.com/docs/reference/programming-model/#providers) for more information.\n",
+        "properties": {
+            "apiKey": {
+                "type": "string",
+                "description": "The API key for operations. Alternatively, can be configured using the `KOMODOR_API_KEY` or `KOMODOR_TOKEN` environment variables."
+            }
+        },
+        "inputProperties": {
+            "apiKey": {
+                "type": "string",
+                "description": "The API key for operations. Alternatively, can be configured using the `KOMODOR_API_KEY` or `KOMODOR_TOKEN` environment variables."
+            }
+        },
+        "methods": {
+            "terraformConfig": "pulumi:providers:komodor/terraformConfig"
+        }
+    },
+    "resources": {
+        "komodor:index/action:Action": {
+            "description": "Creates a new Komodor RBAC action\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst komo_example_pod_viewer = new komodor.Action(\"komo-example-pod-viewer\", {\n    action: \"pod-viewer\",\n    description: \"View pods\",\n    ruleset: `[\n  {\n    \"apiGroups\": [\n      \"apps\"\n    ],\n    \"resources\": [\n      \"pods\"\n    ],\n    \"verbs\": [\n      \"get\",\n      \"list\"\n    ]\n  }\n]\n\n`,\n});\nconst komo_example_policy = new komodor.Policy(\"komo-example-policy\", {statements: pulumi.interpolate`[{\n  \"actions\": [\n    \"${komo_example_pod_viewer.action}\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"komo-example-cluster\",\n    \"namespaces\": [\n      \"default\",\n      \"kube-system\"\n    ]\n  }]\n}]\n\n`});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\nkomo_example_pod_viewer = komodor.Action(\"komo-example-pod-viewer\",\n    action=\"pod-viewer\",\n    description=\"View pods\",\n    ruleset=\"\"\"[\n  {\n    \"apiGroups\": [\n      \"apps\"\n    ],\n    \"resources\": [\n      \"pods\"\n    ],\n    \"verbs\": [\n      \"get\",\n      \"list\"\n    ]\n  }\n]\n\n\"\"\")\nkomo_example_policy = komodor.Policy(\"komo-example-policy\", statements=komo_example_pod_viewer.action.apply(lambda action: f\"\"\"[{{\n  \"actions\": [\n    \"{action}\"\n  ],\n  \"resources\": [{{\n    \"cluster\": \"komo-example-cluster\",\n    \"namespaces\": [\n      \"default\",\n      \"kube-system\"\n    ]\n  }}]\n}}]\n\n\"\"\"))\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var komo_example_pod_viewer = new Komodor.Action(\"komo-example-pod-viewer\", new()\n    {\n        Action = \"pod-viewer\",\n        Description = \"View pods\",\n        Ruleset = @\"[\n  {\n    \"\"apiGroups\"\": [\n      \"\"apps\"\"\n    ],\n    \"\"resources\"\": [\n      \"\"pods\"\"\n    ],\n    \"\"verbs\"\": [\n      \"\"get\"\",\n      \"\"list\"\"\n    ]\n  }\n]\n\n\",\n    });\n\n    var komo_example_policy = new Komodor.Policy(\"komo-example-policy\", new()\n    {\n        Statements = komo_example_pod_viewer.Action.Apply(action =\u003e @$\"[{{\n  \"\"actions\"\": [\n    \"\"{action}\"\"\n  ],\n  \"\"resources\"\": [{{\n    \"\"cluster\"\": \"\"komo-example-cluster\"\",\n    \"\"namespaces\"\": [\n      \"\"default\"\",\n      \"\"kube-system\"\"\n    ]\n  }}]\n}}]\n\n\"),\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"fmt\"\n\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\tkomo_example_pod_viewer, err := komodor.NewAction(ctx, \"komo-example-pod-viewer\", \u0026komodor.ActionArgs{\n\t\t\tAction:      pulumi.String(\"pod-viewer\"),\n\t\t\tDescription: pulumi.String(\"View pods\"),\n\t\t\tRuleset: pulumi.String(`[\n  {\n    \"apiGroups\": [\n      \"apps\"\n    ],\n    \"resources\": [\n      \"pods\"\n    ],\n    \"verbs\": [\n      \"get\",\n      \"list\"\n    ]\n  }\n]\n\n`),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\t_, err = komodor.NewPolicy(ctx, \"komo-example-policy\", \u0026komodor.PolicyArgs{\n\t\t\tStatements: komo_example_pod_viewer.Action.ApplyT(func(action string) (string, error) {\n\t\t\t\treturn fmt.Sprintf(`[{\n  \"actions\": [\n    \"%v\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"komo-example-cluster\",\n    \"namespaces\": [\n      \"default\",\n      \"kube-system\"\n    ]\n  }]\n}]\n\n`, action), nil\n\t\t\t}).(pulumi.StringOutput),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.Action;\nimport com.pulumi.komodor.ActionArgs;\nimport com.pulumi.komodor.Policy;\nimport com.pulumi.komodor.PolicyArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var komo_example_pod_viewer = new Action(\"komo-example-pod-viewer\", ActionArgs.builder()\n            .action(\"pod-viewer\")\n            .description(\"View pods\")\n            .ruleset(\"\"\"\n[\n  {\n    \"apiGroups\": [\n      \"apps\"\n    ],\n    \"resources\": [\n      \"pods\"\n    ],\n    \"verbs\": [\n      \"get\",\n      \"list\"\n    ]\n  }\n]\n\n            \"\"\")\n            .build());\n\n        var komo_example_policy = new Policy(\"komo-example-policy\", PolicyArgs.builder()\n            .statements(komo_example_pod_viewer.action().applyValue(_action -\u003e \"\"\"\n[{\n  \"actions\": [\n    \"%s\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"komo-example-cluster\",\n    \"namespaces\": [\n      \"default\",\n      \"kube-system\"\n    ]\n  }]\n}]\n\n\", _action)))\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  komo-example-pod-viewer:\n    type: komodor:Action\n    properties:\n      action: pod-viewer\n      description: View pods\n      ruleset: |+\n        [\n          {\n            \"apiGroups\": [\n              \"apps\"\n            ],\n            \"resources\": [\n              \"pods\"\n            ],\n            \"verbs\": [\n              \"get\",\n              \"list\"\n            ]\n          }\n        ]\n\n  komo-example-policy:\n    type: komodor:Policy\n    properties:\n      statements: |+\n        [{\n          \"actions\": [\n            \"${[\"komo-example-pod-viewer\"].action}\"\n          ],\n          \"resources\": [{\n            \"cluster\": \"komo-example-cluster\",\n            \"namespaces\": [\n              \"default\",\n              \"kube-system\"\n            ]\n          }]\n        }]\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "ruleset": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "createdAt",
+                "description",
+                "ruleset",
+                "updatedAt"
+            ],
+            "inputProperties": {
+                "action": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "ruleset": {
+                    "type": "string"
+                }
+            },
+            "requiredInputs": [
+                "action",
+                "description",
+                "ruleset"
+            ],
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Action resources.\n",
+                "properties": {
+                    "action": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "ruleset": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "komodor:index/kubernetes:Kubernetes": {
+            "description": "Creates a new Komodor integration with a Kubernetes cluster.\n\nThis integration allows Komodor to monitor and analyze the cluster's activity.\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst k8sCluster = new komodor.Kubernetes(\"k8sCluster\", {clusterName: \"my-cluster\"});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\nk8s_cluster = komodor.Kubernetes(\"k8sCluster\", cluster_name=\"my-cluster\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var k8sCluster = new Komodor.Kubernetes(\"k8sCluster\", new()\n    {\n        ClusterName = \"my-cluster\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := komodor.NewKubernetes(ctx, \"k8sCluster\", \u0026komodor.KubernetesArgs{\n\t\t\tClusterName: pulumi.String(\"my-cluster\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.Kubernetes;\nimport com.pulumi.komodor.KubernetesArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var k8sCluster = new Kubernetes(\"k8sCluster\", KubernetesArgs.builder()\n            .clusterName(\"my-cluster\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  k8sCluster:\n    type: komodor:Kubernetes\n    properties:\n      clusterName: my-cluster\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "properties": {
+                "clusterName": {
+                    "type": "string",
+                    "description": "The name of the Kubernetes cluster\n"
+                }
+            },
+            "required": [
+                "clusterName"
+            ],
+            "inputProperties": {
+                "clusterName": {
+                    "type": "string",
+                    "description": "The name of the Kubernetes cluster\n",
+                    "willReplaceOnChanges": true
+                }
+            },
+            "requiredInputs": [
+                "clusterName"
+            ],
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Kubernetes resources.\n",
+                "properties": {
+                    "clusterName": {
+                        "type": "string",
+                        "description": "The name of the Kubernetes cluster\n",
+                        "willReplaceOnChanges": true
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "komodor:index/monitor:Monitor": {
+            "description": "Creates a new **Komodor monitor** to observe, detect, and analyze failures across your infrastructure. This resource allows you to define the parameters for monitoring specific components in your Kubernetes clusters and other infrastructure.\n\n---\n\n## Example Usage\n\n### Deployment Monitor\n\n### Valid Configurations:\n- **Valid Sinks**: \u003cspan pulumi-lang-nodejs=\"`slack`\" pulumi-lang-dotnet=\"`Slack`\" pulumi-lang-go=\"`slack`\" pulumi-lang-python=\"`slack`\" pulumi-lang-yaml=\"`slack`\" pulumi-lang-java=\"`slack`\"\u003e`slack`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`teams`\" pulumi-lang-dotnet=\"`Teams`\" pulumi-lang-go=\"`teams`\" pulumi-lang-python=\"`teams`\" pulumi-lang-yaml=\"`teams`\" pulumi-lang-java=\"`teams`\"\u003e`teams`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`webhook`\" pulumi-lang-dotnet=\"`Webhook`\" pulumi-lang-go=\"`webhook`\" pulumi-lang-python=\"`webhook`\" pulumi-lang-yaml=\"`webhook`\" pulumi-lang-java=\"`webhook`\"\u003e`webhook`\u003c/span\u003e\n- **Valid notifyOn Options**:\n  - `\"Failure\"`\n  - `\"Successful\"`\n  - `\"All\"`\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst example_deploy_monitor = new komodor.Monitor(\"example-deploy-monitor\", {\n    active: true,\n    sensors: `[{\n  \"cluster\": \"kind-kind\",\n  \"exclude\": {\n    \"namespaces\": [\"komodor\"]\n  },\n  \"namespaces\": [\"default\"]\n}]\n\n`,\n    sinks: `{\n  \"slack\": [\"deployment-alerts\"],\n  \"teams\": [\"Platform-Team\"]\n}\n\n`,\n    sinksOptions: `{\n  \"notifyOn\": [\"Failure\", \"Successful\"]\n}\n\n`,\n    type: \"deploy\",\n});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\nexample_deploy_monitor = komodor.Monitor(\"example-deploy-monitor\",\n    active=True,\n    sensors=\"\"\"[{\n  \"cluster\": \"kind-kind\",\n  \"exclude\": {\n    \"namespaces\": [\"komodor\"]\n  },\n  \"namespaces\": [\"default\"]\n}]\n\n\"\"\",\n    sinks=\"\"\"{\n  \"slack\": [\"deployment-alerts\"],\n  \"teams\": [\"Platform-Team\"]\n}\n\n\"\"\",\n    sinks_options=\"\"\"{\n  \"notifyOn\": [\"Failure\", \"Successful\"]\n}\n\n\"\"\",\n    type=\"deploy\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var example_deploy_monitor = new Komodor.Monitor(\"example-deploy-monitor\", new()\n    {\n        Active = true,\n        Sensors = @\"[{\n  \"\"cluster\"\": \"\"kind-kind\"\",\n  \"\"exclude\"\": {\n    \"\"namespaces\"\": [\"\"komodor\"\"]\n  },\n  \"\"namespaces\"\": [\"\"default\"\"]\n}]\n\n\",\n        Sinks = @\"{\n  \"\"slack\"\": [\"\"deployment-alerts\"\"],\n  \"\"teams\"\": [\"\"Platform-Team\"\"]\n}\n\n\",\n        SinksOptions = @\"{\n  \"\"notifyOn\"\": [\"\"Failure\"\", \"\"Successful\"\"]\n}\n\n\",\n        Type = \"deploy\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := komodor.NewMonitor(ctx, \"example-deploy-monitor\", \u0026komodor.MonitorArgs{\n\t\t\tActive: pulumi.Bool(true),\n\t\t\tSensors: pulumi.String(`[{\n  \"cluster\": \"kind-kind\",\n  \"exclude\": {\n    \"namespaces\": [\"komodor\"]\n  },\n  \"namespaces\": [\"default\"]\n}]\n\n`),\n\t\t\tSinks: pulumi.String(`{\n  \"slack\": [\"deployment-alerts\"],\n  \"teams\": [\"Platform-Team\"]\n}\n\n`),\n\t\t\tSinksOptions: pulumi.String(\"{\\n  \\\"notifyOn\\\": [\\\"Failure\\\", \\\"Successful\\\"]\\n}\\n\\n\"),\n\t\t\tType:         pulumi.String(\"deploy\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.Monitor;\nimport com.pulumi.komodor.MonitorArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var example_deploy_monitor = new Monitor(\"example-deploy-monitor\", MonitorArgs.builder()\n            .active(true)\n            .sensors(\"\"\"\n[{\n  \"cluster\": \"kind-kind\",\n  \"exclude\": {\n    \"namespaces\": [\"komodor\"]\n  },\n  \"namespaces\": [\"default\"]\n}]\n\n            \"\"\")\n            .sinks(\"\"\"\n{\n  \"slack\": [\"deployment-alerts\"],\n  \"teams\": [\"Platform-Team\"]\n}\n\n            \"\"\")\n            .sinksOptions(\"\"\"\n{\n  \"notifyOn\": [\"Failure\", \"Successful\"]\n}\n\n            \"\"\")\n            .type(\"deploy\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  example-deploy-monitor:\n    type: komodor:Monitor\n    properties:\n      active: true\n      sensors: |+\n        [{\n          \"cluster\": \"kind-kind\",\n          \"exclude\": {\n            \"namespaces\": [\"komodor\"]\n          },\n          \"namespaces\": [\"default\"]\n        }]\n\n      sinks: |+\n        {\n          \"slack\": [\"deployment-alerts\"],\n          \"teams\": [\"Platform-Team\"]\n        }\n\n      sinksOptions: |+\n        {\n          \"notifyOn\": [\"Failure\", \"Successful\"]\n        }\n\n      type: deploy\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n---\n\n### Availability Monitor\n\n### Valid Configurations:\n- **Valid Sinks**: \u003cspan pulumi-lang-nodejs=\"`slack`\" pulumi-lang-dotnet=\"`Slack`\" pulumi-lang-go=\"`slack`\" pulumi-lang-python=\"`slack`\" pulumi-lang-yaml=\"`slack`\" pulumi-lang-java=\"`slack`\"\u003e`slack`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`teams`\" pulumi-lang-dotnet=\"`Teams`\" pulumi-lang-go=\"`teams`\" pulumi-lang-python=\"`teams`\" pulumi-lang-yaml=\"`teams`\" pulumi-lang-java=\"`teams`\"\u003e`teams`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`opsgenie`\" pulumi-lang-dotnet=\"`Opsgenie`\" pulumi-lang-go=\"`opsgenie`\" pulumi-lang-python=\"`opsgenie`\" pulumi-lang-yaml=\"`opsgenie`\" pulumi-lang-java=\"`opsgenie`\"\u003e`opsgenie`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`pagerduty`\" pulumi-lang-dotnet=\"`Pagerduty`\" pulumi-lang-go=\"`pagerduty`\" pulumi-lang-python=\"`pagerduty`\" pulumi-lang-yaml=\"`pagerduty`\" pulumi-lang-java=\"`pagerduty`\"\u003e`pagerduty`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`webhook`\" pulumi-lang-dotnet=\"`Webhook`\" pulumi-lang-go=\"`webhook`\" pulumi-lang-python=\"`webhook`\" pulumi-lang-yaml=\"`webhook`\" pulumi-lang-java=\"`webhook`\"\u003e`webhook`\u003c/span\u003e\n- **Valid Duration**: Must be an integer between **5** and **600** (inclusive).\n- **Valid Categories for variables.categories**:\n  - `\"Creating/Initializing\"`\n  - `\"Scheduling\"`\n  - `\"Container Creation\"`\n  - `\"NonZeroExitCode\"`\n  - `\"Unhealthy - failed probes\"`\n  - `\"OOMKilled\"`\n  - `\"BackOff\"`\n  - `\"Infrastructure\"`\n  - `\"Image\"`\n  - `\"Volume/Secret/ConfigMap\"`\n  - `\"Pod Termination\"`\n  - `\"Completed\"`\n  - `\"Other\"`\n- **Valid notifyOn Options**: `[\"*\"]`\n  - `[\"*\"]` (all categories)\n  - Or any one of the following:\n    - `\"Creating/Initializing\"`\n    - `\"Scheduling\"`\n    - `\"Container Creation\"`\n    - `\"NonZeroExitCode\"`\n    - `\"Unhealthy - failed probes\"`\n    - `\"OOMKilled\"`\n    - `\"BackOff\"`\n    - `\"Infrastructure\"`\n    - `\"Image\"`\n    - `\"Volume/Secret/ConfigMap\"`\n    - `\"Pod Termination\"`\n    - `\"Completed\"`\n    - `\"Other\"`\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst example_availability_monitor = new komodor.Monitor(\"example-availability-monitor\", {\n    active: true,\n    sensors: `[{\n  \"cluster\": \"kind-kind\",\n  \"exclude\": {\n    \"services\": [\"default/excluded-service\"]\n  },\n  \"services\": [\"default/important-service\"],\n  \"condition\": \"and\",\n  \"namespaces\": [\"default\"]\n}]\n\n`,\n    sinks: `{\n  \"slack\": [\"availability-alerts\"],\n  \"teams\": [\"SRE-Team\"]\n}\n\n`,\n    sinksOptions: `{\n  \"notifyOn\": [\"*\"]\n}\n\n`,\n    type: \"availability\",\n    variables: `{\n  \"categories\": [\"Creating/Initializing\", \"Unhealthy - failed probes\"],\n  \"duration\": 30,\n  \"minAvailable\": \"100%\"\n}\n\n`,\n});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\nexample_availability_monitor = komodor.Monitor(\"example-availability-monitor\",\n    active=True,\n    sensors=\"\"\"[{\n  \"cluster\": \"kind-kind\",\n  \"exclude\": {\n    \"services\": [\"default/excluded-service\"]\n  },\n  \"services\": [\"default/important-service\"],\n  \"condition\": \"and\",\n  \"namespaces\": [\"default\"]\n}]\n\n\"\"\",\n    sinks=\"\"\"{\n  \"slack\": [\"availability-alerts\"],\n  \"teams\": [\"SRE-Team\"]\n}\n\n\"\"\",\n    sinks_options=\"\"\"{\n  \"notifyOn\": [\"*\"]\n}\n\n\"\"\",\n    type=\"availability\",\n    variables=\"\"\"{\n  \"categories\": [\"Creating/Initializing\", \"Unhealthy - failed probes\"],\n  \"duration\": 30,\n  \"minAvailable\": \"100%\"\n}\n\n\"\"\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var example_availability_monitor = new Komodor.Monitor(\"example-availability-monitor\", new()\n    {\n        Active = true,\n        Sensors = @\"[{\n  \"\"cluster\"\": \"\"kind-kind\"\",\n  \"\"exclude\"\": {\n    \"\"services\"\": [\"\"default/excluded-service\"\"]\n  },\n  \"\"services\"\": [\"\"default/important-service\"\"],\n  \"\"condition\"\": \"\"and\"\",\n  \"\"namespaces\"\": [\"\"default\"\"]\n}]\n\n\",\n        Sinks = @\"{\n  \"\"slack\"\": [\"\"availability-alerts\"\"],\n  \"\"teams\"\": [\"\"SRE-Team\"\"]\n}\n\n\",\n        SinksOptions = @\"{\n  \"\"notifyOn\"\": [\"\"*\"\"]\n}\n\n\",\n        Type = \"availability\",\n        Variables = @\"{\n  \"\"categories\"\": [\"\"Creating/Initializing\"\", \"\"Unhealthy - failed probes\"\"],\n  \"\"duration\"\": 30,\n  \"\"minAvailable\"\": \"\"100%\"\"\n}\n\n\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := komodor.NewMonitor(ctx, \"example-availability-monitor\", \u0026komodor.MonitorArgs{\n\t\t\tActive: pulumi.Bool(true),\n\t\t\tSensors: pulumi.String(`[{\n  \"cluster\": \"kind-kind\",\n  \"exclude\": {\n    \"services\": [\"default/excluded-service\"]\n  },\n  \"services\": [\"default/important-service\"],\n  \"condition\": \"and\",\n  \"namespaces\": [\"default\"]\n}]\n\n`),\n\t\t\tSinks: pulumi.String(`{\n  \"slack\": [\"availability-alerts\"],\n  \"teams\": [\"SRE-Team\"]\n}\n\n`),\n\t\t\tSinksOptions: pulumi.String(\"{\\n  \\\"notifyOn\\\": [\\\"*\\\"]\\n}\\n\\n\"),\n\t\t\tType:         pulumi.String(\"availability\"),\n\t\t\tVariables: pulumi.String(`{\n  \"categories\": [\"Creating/Initializing\", \"Unhealthy - failed probes\"],\n  \"duration\": 30,\n  \"minAvailable\": \"100%\"\n}\n\n`),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.Monitor;\nimport com.pulumi.komodor.MonitorArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var example_availability_monitor = new Monitor(\"example-availability-monitor\", MonitorArgs.builder()\n            .active(true)\n            .sensors(\"\"\"\n[{\n  \"cluster\": \"kind-kind\",\n  \"exclude\": {\n    \"services\": [\"default/excluded-service\"]\n  },\n  \"services\": [\"default/important-service\"],\n  \"condition\": \"and\",\n  \"namespaces\": [\"default\"]\n}]\n\n            \"\"\")\n            .sinks(\"\"\"\n{\n  \"slack\": [\"availability-alerts\"],\n  \"teams\": [\"SRE-Team\"]\n}\n\n            \"\"\")\n            .sinksOptions(\"\"\"\n{\n  \"notifyOn\": [\"*\"]\n}\n\n            \"\"\")\n            .type(\"availability\")\n            .variables(\"\"\"\n{\n  \"categories\": [\"Creating/Initializing\", \"Unhealthy - failed probes\"],\n  \"duration\": 30,\n  \"minAvailable\": \"100%\"\n}\n\n            \"\"\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  example-availability-monitor:\n    type: komodor:Monitor\n    properties:\n      active: true\n      sensors: |+\n        [{\n          \"cluster\": \"kind-kind\",\n          \"exclude\": {\n            \"services\": [\"default/excluded-service\"]\n          },\n          \"services\": [\"default/important-service\"],\n          \"condition\": \"and\",\n          \"namespaces\": [\"default\"]\n        }]\n\n      sinks: |+\n        {\n          \"slack\": [\"availability-alerts\"],\n          \"teams\": [\"SRE-Team\"]\n        }\n\n      sinksOptions: |+\n        {\n          \"notifyOn\": [\"*\"]\n        }\n\n      type: availability\n      variables: |+\n        {\n          \"categories\": [\"Creating/Initializing\", \"Unhealthy - failed probes\"],\n          \"duration\": 30,\n          \"minAvailable\": \"100%\"\n        }\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n---\n\n### Node Monitor\n\n### Valid Configurations:\n- **Valid Sinks**: \u003cspan pulumi-lang-nodejs=\"`slack`\" pulumi-lang-dotnet=\"`Slack`\" pulumi-lang-go=\"`slack`\" pulumi-lang-python=\"`slack`\" pulumi-lang-yaml=\"`slack`\" pulumi-lang-java=\"`slack`\"\u003e`slack`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`teams`\" pulumi-lang-dotnet=\"`Teams`\" pulumi-lang-go=\"`teams`\" pulumi-lang-python=\"`teams`\" pulumi-lang-yaml=\"`teams`\" pulumi-lang-java=\"`teams`\"\u003e`teams`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`opsgenie`\" pulumi-lang-dotnet=\"`Opsgenie`\" pulumi-lang-go=\"`opsgenie`\" pulumi-lang-python=\"`opsgenie`\" pulumi-lang-yaml=\"`opsgenie`\" pulumi-lang-java=\"`opsgenie`\"\u003e`opsgenie`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`pagerduty`\" pulumi-lang-dotnet=\"`Pagerduty`\" pulumi-lang-go=\"`pagerduty`\" pulumi-lang-python=\"`pagerduty`\" pulumi-lang-yaml=\"`pagerduty`\" pulumi-lang-java=\"`pagerduty`\"\u003e`pagerduty`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`webhook`\" pulumi-lang-dotnet=\"`Webhook`\" pulumi-lang-go=\"`webhook`\" pulumi-lang-python=\"`webhook`\" pulumi-lang-yaml=\"`webhook`\" pulumi-lang-java=\"`webhook`\"\u003e`webhook`\u003c/span\u003e\n- **Valid Duration**: Must be an integer between **5** and **600** (inclusive).\n- **Valid NodeCreationThreshold: Should be in the format of `\"3m\"` (3 minutes) or `\"5s\"` (5 seconds).\n- **Valid Variables**:\n  - \u003cspan pulumi-lang-nodejs=\"`duration`\" pulumi-lang-dotnet=\"`Duration`\" pulumi-lang-go=\"`duration`\" pulumi-lang-python=\"`duration`\" pulumi-lang-yaml=\"`duration`\" pulumi-lang-java=\"`duration`\"\u003e`duration`\u003c/span\u003e: Required\n  - `nodeCreationThreshold`: Required\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst example_node_monitor = new komodor.Monitor(\"example-node-monitor\", {\n    active: true,\n    sensors: `[{\n  \"cluster\": \"kind-kind\"\n}]\n\n`,\n    sinks: `{\n  \"slack\": [\"node-alerts\"]\n}\n\n`,\n    type: \"node\",\n    variables: `{\n  \"duration\": 60,\n  \"nodeCreationThreshold\": \"10m\"\n}\n\n`,\n});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\nexample_node_monitor = komodor.Monitor(\"example-node-monitor\",\n    active=True,\n    sensors=\"\"\"[{\n  \"cluster\": \"kind-kind\"\n}]\n\n\"\"\",\n    sinks=\"\"\"{\n  \"slack\": [\"node-alerts\"]\n}\n\n\"\"\",\n    type=\"node\",\n    variables=\"\"\"{\n  \"duration\": 60,\n  \"nodeCreationThreshold\": \"10m\"\n}\n\n\"\"\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var example_node_monitor = new Komodor.Monitor(\"example-node-monitor\", new()\n    {\n        Active = true,\n        Sensors = @\"[{\n  \"\"cluster\"\": \"\"kind-kind\"\"\n}]\n\n\",\n        Sinks = @\"{\n  \"\"slack\"\": [\"\"node-alerts\"\"]\n}\n\n\",\n        Type = \"node\",\n        Variables = @\"{\n  \"\"duration\"\": 60,\n  \"\"nodeCreationThreshold\"\": \"\"10m\"\"\n}\n\n\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := komodor.NewMonitor(ctx, \"example-node-monitor\", \u0026komodor.MonitorArgs{\n\t\t\tActive:  pulumi.Bool(true),\n\t\t\tSensors: pulumi.String(\"[{\\n  \\\"cluster\\\": \\\"kind-kind\\\"\\n}]\\n\\n\"),\n\t\t\tSinks:   pulumi.String(\"{\\n  \\\"slack\\\": [\\\"node-alerts\\\"]\\n}\\n\\n\"),\n\t\t\tType:    pulumi.String(\"node\"),\n\t\t\tVariables: pulumi.String(`{\n  \"duration\": 60,\n  \"nodeCreationThreshold\": \"10m\"\n}\n\n`),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.Monitor;\nimport com.pulumi.komodor.MonitorArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var example_node_monitor = new Monitor(\"example-node-monitor\", MonitorArgs.builder()\n            .active(true)\n            .sensors(\"\"\"\n[{\n  \"cluster\": \"kind-kind\"\n}]\n\n            \"\"\")\n            .sinks(\"\"\"\n{\n  \"slack\": [\"node-alerts\"]\n}\n\n            \"\"\")\n            .type(\"node\")\n            .variables(\"\"\"\n{\n  \"duration\": 60,\n  \"nodeCreationThreshold\": \"10m\"\n}\n\n            \"\"\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  example-node-monitor:\n    type: komodor:Monitor\n    properties:\n      active: true\n      sensors: |+\n        [{\n          \"cluster\": \"kind-kind\"\n        }]\n\n      sinks: |+\n        {\n          \"slack\": [\"node-alerts\"]\n        }\n\n      type: node\n      variables: |+\n        {\n          \"duration\": 60,\n          \"nodeCreationThreshold\": \"10m\"\n        }\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n---\n\n### Workflow Monitor\n\n### Valid Configurations:\n- **Valid Sinks**: \u003cspan pulumi-lang-nodejs=\"`slack`\" pulumi-lang-dotnet=\"`Slack`\" pulumi-lang-go=\"`slack`\" pulumi-lang-python=\"`slack`\" pulumi-lang-yaml=\"`slack`\" pulumi-lang-java=\"`slack`\"\u003e`slack`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`teams`\" pulumi-lang-dotnet=\"`Teams`\" pulumi-lang-go=\"`teams`\" pulumi-lang-python=\"`teams`\" pulumi-lang-yaml=\"`teams`\" pulumi-lang-java=\"`teams`\"\u003e`teams`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`opsgenie`\" pulumi-lang-dotnet=\"`Opsgenie`\" pulumi-lang-go=\"`opsgenie`\" pulumi-lang-python=\"`opsgenie`\" pulumi-lang-yaml=\"`opsgenie`\" pulumi-lang-java=\"`opsgenie`\"\u003e`opsgenie`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`pagerduty`\" pulumi-lang-dotnet=\"`Pagerduty`\" pulumi-lang-go=\"`pagerduty`\" pulumi-lang-python=\"`pagerduty`\" pulumi-lang-yaml=\"`pagerduty`\" pulumi-lang-java=\"`pagerduty`\"\u003e`pagerduty`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`webhook`\" pulumi-lang-dotnet=\"`Webhook`\" pulumi-lang-go=\"`webhook`\" pulumi-lang-python=\"`webhook`\" pulumi-lang-yaml=\"`webhook`\" pulumi-lang-java=\"`webhook`\"\u003e`webhook`\u003c/span\u003e\n- **Valid notifyOn Options**: None (not applicable for workflows)\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst example_workflow_monitor = new komodor.Monitor(\"example-workflow-monitor\", {\n    active: true,\n    sensors: `[{\n  \"cluster\": \"kind-kind\",\n  \"namespaces\": [\"workflow-namespace\"]\n}]\n\n`,\n    sinks: `{\n  \"slack\": [\"workflow-alerts\"],\n  \"webhook\": [\"webhook-url\"]\n}\n\n`,\n    type: \"workflow\",\n});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\nexample_workflow_monitor = komodor.Monitor(\"example-workflow-monitor\",\n    active=True,\n    sensors=\"\"\"[{\n  \"cluster\": \"kind-kind\",\n  \"namespaces\": [\"workflow-namespace\"]\n}]\n\n\"\"\",\n    sinks=\"\"\"{\n  \"slack\": [\"workflow-alerts\"],\n  \"webhook\": [\"webhook-url\"]\n}\n\n\"\"\",\n    type=\"workflow\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var example_workflow_monitor = new Komodor.Monitor(\"example-workflow-monitor\", new()\n    {\n        Active = true,\n        Sensors = @\"[{\n  \"\"cluster\"\": \"\"kind-kind\"\",\n  \"\"namespaces\"\": [\"\"workflow-namespace\"\"]\n}]\n\n\",\n        Sinks = @\"{\n  \"\"slack\"\": [\"\"workflow-alerts\"\"],\n  \"\"webhook\"\": [\"\"webhook-url\"\"]\n}\n\n\",\n        Type = \"workflow\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := komodor.NewMonitor(ctx, \"example-workflow-monitor\", \u0026komodor.MonitorArgs{\n\t\t\tActive: pulumi.Bool(true),\n\t\t\tSensors: pulumi.String(`[{\n  \"cluster\": \"kind-kind\",\n  \"namespaces\": [\"workflow-namespace\"]\n}]\n\n`),\n\t\t\tSinks: pulumi.String(`{\n  \"slack\": [\"workflow-alerts\"],\n  \"webhook\": [\"webhook-url\"]\n}\n\n`),\n\t\t\tType: pulumi.String(\"workflow\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.Monitor;\nimport com.pulumi.komodor.MonitorArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var example_workflow_monitor = new Monitor(\"example-workflow-monitor\", MonitorArgs.builder()\n            .active(true)\n            .sensors(\"\"\"\n[{\n  \"cluster\": \"kind-kind\",\n  \"namespaces\": [\"workflow-namespace\"]\n}]\n\n            \"\"\")\n            .sinks(\"\"\"\n{\n  \"slack\": [\"workflow-alerts\"],\n  \"webhook\": [\"webhook-url\"]\n}\n\n            \"\"\")\n            .type(\"workflow\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  example-workflow-monitor:\n    type: komodor:Monitor\n    properties:\n      active: true\n      sensors: |+\n        [{\n          \"cluster\": \"kind-kind\",\n          \"namespaces\": [\"workflow-namespace\"]\n        }]\n\n      sinks: |+\n        {\n          \"slack\": [\"workflow-alerts\"],\n          \"webhook\": [\"webhook-url\"]\n        }\n\n      type: workflow\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n---\n",
+            "properties": {
+                "active": {
+                    "type": "boolean",
+                    "description": ": Indicates whether the monitor is enabled.\n"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": ": Default is \u003cspan pulumi-lang-nodejs=\"`false`\" pulumi-lang-dotnet=\"`False`\" pulumi-lang-go=\"`false`\" pulumi-lang-python=\"`false`\" pulumi-lang-yaml=\"`false`\" pulumi-lang-java=\"`false`\"\u003e`false`\u003c/span\u003e. Indicates whether the monitor has been marked for deletion.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": ": The name of the monitor. Defaults to an empty string if not provided.\n"
+                },
+                "sensors": {
+                    "type": "string",
+                    "description": ": Defines the scope of monitoring (e.g., cluster, namespaces, services, etc.).\n"
+                },
+                "sinks": {
+                    "type": "string",
+                    "description": ": Defines notification channels for the monitor, such as Slack, Teams, PagerDuty, Opsgenie, or Webhook.\n"
+                },
+                "sinksOptions": {
+                    "type": "string",
+                    "description": ": Specifies additional notification settings like notifyOn. Valid values depend on the monitor type.\n"
+                },
+                "type": {
+                    "type": "string",
+                    "description": ": The monitor type. Must be one of: \u003cspan pulumi-lang-nodejs=\"`availability`\" pulumi-lang-dotnet=\"`Availability`\" pulumi-lang-go=\"`availability`\" pulumi-lang-python=\"`availability`\" pulumi-lang-yaml=\"`availability`\" pulumi-lang-java=\"`availability`\"\u003e`availability`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`node`\" pulumi-lang-dotnet=\"`Node`\" pulumi-lang-go=\"`node`\" pulumi-lang-python=\"`node`\" pulumi-lang-yaml=\"`node`\" pulumi-lang-java=\"`node`\"\u003e`node`\u003c/span\u003e, `PVC`, \u003cspan pulumi-lang-nodejs=\"`job`\" pulumi-lang-dotnet=\"`Job`\" pulumi-lang-go=\"`job`\" pulumi-lang-python=\"`job`\" pulumi-lang-yaml=\"`job`\" pulumi-lang-java=\"`job`\"\u003e`job`\u003c/span\u003e, `cronJob`, \u003cspan pulumi-lang-nodejs=\"`deploy`\" pulumi-lang-dotnet=\"`Deploy`\" pulumi-lang-go=\"`deploy`\" pulumi-lang-python=\"`deploy`\" pulumi-lang-yaml=\"`deploy`\" pulumi-lang-java=\"`deploy`\"\u003e`deploy`\u003c/span\u003e, or \u003cspan pulumi-lang-nodejs=\"`workflow`\" pulumi-lang-dotnet=\"`Workflow`\" pulumi-lang-go=\"`workflow`\" pulumi-lang-python=\"`workflow`\" pulumi-lang-yaml=\"`workflow`\" pulumi-lang-java=\"`workflow`\"\u003e`workflow`\u003c/span\u003e.\n"
+                },
+                "variables": {
+                    "type": "string",
+                    "description": ": Additional settings required for specific monitor types.\n"
+                }
+            },
+            "required": [
+                "active",
+                "name",
+                "sensors",
+                "type"
+            ],
+            "inputProperties": {
+                "active": {
+                    "type": "boolean",
+                    "description": ": Indicates whether the monitor is enabled.\n"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": ": Default is \u003cspan pulumi-lang-nodejs=\"`false`\" pulumi-lang-dotnet=\"`False`\" pulumi-lang-go=\"`false`\" pulumi-lang-python=\"`false`\" pulumi-lang-yaml=\"`false`\" pulumi-lang-java=\"`false`\"\u003e`false`\u003c/span\u003e. Indicates whether the monitor has been marked for deletion.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": ": The name of the monitor. Defaults to an empty string if not provided.\n"
+                },
+                "sensors": {
+                    "type": "string",
+                    "description": ": Defines the scope of monitoring (e.g., cluster, namespaces, services, etc.).\n"
+                },
+                "sinks": {
+                    "type": "string",
+                    "description": ": Defines notification channels for the monitor, such as Slack, Teams, PagerDuty, Opsgenie, or Webhook.\n"
+                },
+                "sinksOptions": {
+                    "type": "string",
+                    "description": ": Specifies additional notification settings like notifyOn. Valid values depend on the monitor type.\n"
+                },
+                "type": {
+                    "type": "string",
+                    "description": ": The monitor type. Must be one of: \u003cspan pulumi-lang-nodejs=\"`availability`\" pulumi-lang-dotnet=\"`Availability`\" pulumi-lang-go=\"`availability`\" pulumi-lang-python=\"`availability`\" pulumi-lang-yaml=\"`availability`\" pulumi-lang-java=\"`availability`\"\u003e`availability`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`node`\" pulumi-lang-dotnet=\"`Node`\" pulumi-lang-go=\"`node`\" pulumi-lang-python=\"`node`\" pulumi-lang-yaml=\"`node`\" pulumi-lang-java=\"`node`\"\u003e`node`\u003c/span\u003e, `PVC`, \u003cspan pulumi-lang-nodejs=\"`job`\" pulumi-lang-dotnet=\"`Job`\" pulumi-lang-go=\"`job`\" pulumi-lang-python=\"`job`\" pulumi-lang-yaml=\"`job`\" pulumi-lang-java=\"`job`\"\u003e`job`\u003c/span\u003e, `cronJob`, \u003cspan pulumi-lang-nodejs=\"`deploy`\" pulumi-lang-dotnet=\"`Deploy`\" pulumi-lang-go=\"`deploy`\" pulumi-lang-python=\"`deploy`\" pulumi-lang-yaml=\"`deploy`\" pulumi-lang-java=\"`deploy`\"\u003e`deploy`\u003c/span\u003e, or \u003cspan pulumi-lang-nodejs=\"`workflow`\" pulumi-lang-dotnet=\"`Workflow`\" pulumi-lang-go=\"`workflow`\" pulumi-lang-python=\"`workflow`\" pulumi-lang-yaml=\"`workflow`\" pulumi-lang-java=\"`workflow`\"\u003e`workflow`\u003c/span\u003e.\n"
+                },
+                "variables": {
+                    "type": "string",
+                    "description": ": Additional settings required for specific monitor types.\n"
+                }
+            },
+            "requiredInputs": [
+                "active",
+                "sensors",
+                "type"
+            ],
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Monitor resources.\n",
+                "properties": {
+                    "active": {
+                        "type": "boolean",
+                        "description": ": Indicates whether the monitor is enabled.\n"
+                    },
+                    "isDeleted": {
+                        "type": "boolean",
+                        "description": ": Default is \u003cspan pulumi-lang-nodejs=\"`false`\" pulumi-lang-dotnet=\"`False`\" pulumi-lang-go=\"`false`\" pulumi-lang-python=\"`false`\" pulumi-lang-yaml=\"`false`\" pulumi-lang-java=\"`false`\"\u003e`false`\u003c/span\u003e. Indicates whether the monitor has been marked for deletion.\n"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": ": The name of the monitor. Defaults to an empty string if not provided.\n"
+                    },
+                    "sensors": {
+                        "type": "string",
+                        "description": ": Defines the scope of monitoring (e.g., cluster, namespaces, services, etc.).\n"
+                    },
+                    "sinks": {
+                        "type": "string",
+                        "description": ": Defines notification channels for the monitor, such as Slack, Teams, PagerDuty, Opsgenie, or Webhook.\n"
+                    },
+                    "sinksOptions": {
+                        "type": "string",
+                        "description": ": Specifies additional notification settings like notifyOn. Valid values depend on the monitor type.\n"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": ": The monitor type. Must be one of: \u003cspan pulumi-lang-nodejs=\"`availability`\" pulumi-lang-dotnet=\"`Availability`\" pulumi-lang-go=\"`availability`\" pulumi-lang-python=\"`availability`\" pulumi-lang-yaml=\"`availability`\" pulumi-lang-java=\"`availability`\"\u003e`availability`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`node`\" pulumi-lang-dotnet=\"`Node`\" pulumi-lang-go=\"`node`\" pulumi-lang-python=\"`node`\" pulumi-lang-yaml=\"`node`\" pulumi-lang-java=\"`node`\"\u003e`node`\u003c/span\u003e, `PVC`, \u003cspan pulumi-lang-nodejs=\"`job`\" pulumi-lang-dotnet=\"`Job`\" pulumi-lang-go=\"`job`\" pulumi-lang-python=\"`job`\" pulumi-lang-yaml=\"`job`\" pulumi-lang-java=\"`job`\"\u003e`job`\u003c/span\u003e, `cronJob`, \u003cspan pulumi-lang-nodejs=\"`deploy`\" pulumi-lang-dotnet=\"`Deploy`\" pulumi-lang-go=\"`deploy`\" pulumi-lang-python=\"`deploy`\" pulumi-lang-yaml=\"`deploy`\" pulumi-lang-java=\"`deploy`\"\u003e`deploy`\u003c/span\u003e, or \u003cspan pulumi-lang-nodejs=\"`workflow`\" pulumi-lang-dotnet=\"`Workflow`\" pulumi-lang-go=\"`workflow`\" pulumi-lang-python=\"`workflow`\" pulumi-lang-yaml=\"`workflow`\" pulumi-lang-java=\"`workflow`\"\u003e`workflow`\u003c/span\u003e.\n"
+                    },
+                    "variables": {
+                        "type": "string",
+                        "description": ": Additional settings required for specific monitor types.\n"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "komodor:index/policy:Policy": {
+            "description": "Creates a Komodor RBAC Policy\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst my_policy = new komodor.Policy(\"my-policy\", {statements: `[{\n  \"actions\": [\n    \"get:daemonset\",\n    \"edit:cronjob\",\n    \"delete:service\",\n    \"edit:job\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"kind-kind\",\n    \"namespaces\": [\n      \"default\",\n      \"komodor\"\n    ]\n  }]\n}]\n\n`});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\nmy_policy = komodor.Policy(\"my-policy\", statements=\"\"\"[{\n  \"actions\": [\n    \"get:daemonset\",\n    \"edit:cronjob\",\n    \"delete:service\",\n    \"edit:job\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"kind-kind\",\n    \"namespaces\": [\n      \"default\",\n      \"komodor\"\n    ]\n  }]\n}]\n\n\"\"\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var my_policy = new Komodor.Policy(\"my-policy\", new()\n    {\n        Statements = @\"[{\n  \"\"actions\"\": [\n    \"\"get:daemonset\"\",\n    \"\"edit:cronjob\"\",\n    \"\"delete:service\"\",\n    \"\"edit:job\"\"\n  ],\n  \"\"resources\"\": [{\n    \"\"cluster\"\": \"\"kind-kind\"\",\n    \"\"namespaces\"\": [\n      \"\"default\"\",\n      \"\"komodor\"\"\n    ]\n  }]\n}]\n\n\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := komodor.NewPolicy(ctx, \"my-policy\", \u0026komodor.PolicyArgs{\n\t\t\tStatements: pulumi.String(`[{\n  \"actions\": [\n    \"get:daemonset\",\n    \"edit:cronjob\",\n    \"delete:service\",\n    \"edit:job\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"kind-kind\",\n    \"namespaces\": [\n      \"default\",\n      \"komodor\"\n    ]\n  }]\n}]\n\n`),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.Policy;\nimport com.pulumi.komodor.PolicyArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var my_policy = new Policy(\"my-policy\", PolicyArgs.builder()\n            .statements(\"\"\"\n[{\n  \"actions\": [\n    \"get:daemonset\",\n    \"edit:cronjob\",\n    \"delete:service\",\n    \"edit:job\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"kind-kind\",\n    \"namespaces\": [\n      \"default\",\n      \"komodor\"\n    ]\n  }]\n}]\n\n            \"\"\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  my-policy:\n    type: komodor:Policy\n    properties:\n      statements: |+\n        [{\n          \"actions\": [\n            \"get:daemonset\",\n            \"edit:cronjob\",\n            \"delete:service\",\n            \"edit:job\"\n          ],\n          \"resources\": [{\n            \"cluster\": \"kind-kind\",\n            \"namespaces\": [\n              \"default\",\n              \"komodor\"\n            ]\n          }]\n        }]\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n### Dyanmic Tags\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\n// This example shows how to create a policy with dynamic tags.\n// Dynamic tags feature is not available by default.\n// When the feature is disabled, applying this policy will fail with error: `400 Bad Request`\nconst komo_example_dynamic_tags_policy = new komodor.Policy(\"komo-example-dynamic-tags-policy\", {\n    type: \"dynamic_tag\",\n    tags: {\n        team: \"super-heroes\",\n    },\n    statements: `[{\n  \"actions\": [\n    \"view:all\"\n  ],\n  \"resources\": []\n}]\n`,\n});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\n# This example shows how to create a policy with dynamic tags.\n# Dynamic tags feature is not available by default.\n# When the feature is disabled, applying this policy will fail with error: `400 Bad Request`\nkomo_example_dynamic_tags_policy = komodor.Policy(\"komo-example-dynamic-tags-policy\",\n    type=\"dynamic_tag\",\n    tags={\n        \"team\": \"super-heroes\",\n    },\n    statements=\"\"\"[{\n  \"actions\": [\n    \"view:all\"\n  ],\n  \"resources\": []\n}]\n\"\"\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    // This example shows how to create a policy with dynamic tags.\n    // Dynamic tags feature is not available by default.\n    // When the feature is disabled, applying this policy will fail with error: `400 Bad Request`\n    var komo_example_dynamic_tags_policy = new Komodor.Policy(\"komo-example-dynamic-tags-policy\", new()\n    {\n        Type = \"dynamic_tag\",\n        Tags = \n        {\n            { \"team\", \"super-heroes\" },\n        },\n        Statements = @\"[{\n  \"\"actions\"\": [\n    \"\"view:all\"\"\n  ],\n  \"\"resources\"\": []\n}]\n\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t// This example shows how to create a policy with dynamic tags.\n\t\t// Dynamic tags feature is not available by default.\n\t\t// When the feature is disabled, applying this policy will fail with error: `400 Bad Request`\n\t\t_, err := komodor.NewPolicy(ctx, \"komo-example-dynamic-tags-policy\", \u0026komodor.PolicyArgs{\n\t\t\tType: pulumi.String(\"dynamic_tag\"),\n\t\t\tTags: pulumi.StringMap{\n\t\t\t\t\"team\": pulumi.String(\"super-heroes\"),\n\t\t\t},\n\t\t\tStatements: pulumi.String(`[{\n  \"actions\": [\n    \"view:all\"\n  ],\n  \"resources\": []\n}]\n`),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.Policy;\nimport com.pulumi.komodor.PolicyArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        // This example shows how to create a policy with dynamic tags.\n        // Dynamic tags feature is not available by default.\n        // When the feature is disabled, applying this policy will fail with error: `400 Bad Request`\n        var komo_example_dynamic_tags_policy = new Policy(\"komo-example-dynamic-tags-policy\", PolicyArgs.builder()\n            .type(\"dynamic_tag\")\n            .tags(Map.of(\"team\", \"super-heroes\"))\n            .statements(\"\"\"\n[{\n  \"actions\": [\n    \"view:all\"\n  ],\n  \"resources\": []\n}]\n            \"\"\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  # This example shows how to create a policy with dynamic tags.\n  # Dynamic tags feature is not available by default.\n  # When the feature is disabled, applying this policy will fail with error: `400 Bad Request`\n  komo-example-dynamic-tags-policy:\n    type: komodor:Policy\n    properties:\n      type: dynamic_tag\n      tags:\n        team: super-heroes\n      statements: |\n        [{\n          \"actions\": [\n            \"view:all\"\n          ],\n          \"resources\": []\n        }]\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n### Wildcard Namespace\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst komo_example_wildcard_policy = new komodor.Policy(\"komo-example-wildcard-policy\", {\n    statements: `[{\n  \"actions\": [\n    \"view:all\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"komo-example-cluster\",\n    \"namespacePattern\": \"prod-*\"\n  }]\n}]\n\n`,\n    type: \"wildcard\",\n});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\nkomo_example_wildcard_policy = komodor.Policy(\"komo-example-wildcard-policy\",\n    statements=\"\"\"[{\n  \"actions\": [\n    \"view:all\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"komo-example-cluster\",\n    \"namespacePattern\": \"prod-*\"\n  }]\n}]\n\n\"\"\",\n    type=\"wildcard\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var komo_example_wildcard_policy = new Komodor.Policy(\"komo-example-wildcard-policy\", new()\n    {\n        Statements = @\"[{\n  \"\"actions\"\": [\n    \"\"view:all\"\"\n  ],\n  \"\"resources\"\": [{\n    \"\"cluster\"\": \"\"komo-example-cluster\"\",\n    \"\"namespacePattern\"\": \"\"prod-*\"\"\n  }]\n}]\n\n\",\n        Type = \"wildcard\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := komodor.NewPolicy(ctx, \"komo-example-wildcard-policy\", \u0026komodor.PolicyArgs{\n\t\t\tStatements: pulumi.String(`[{\n  \"actions\": [\n    \"view:all\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"komo-example-cluster\",\n    \"namespacePattern\": \"prod-*\"\n  }]\n}]\n\n`),\n\t\t\tType: pulumi.String(\"wildcard\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.Policy;\nimport com.pulumi.komodor.PolicyArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var komo_example_wildcard_policy = new Policy(\"komo-example-wildcard-policy\", PolicyArgs.builder()\n            .statements(\"\"\"\n[{\n  \"actions\": [\n    \"view:all\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"komo-example-cluster\",\n    \"namespacePattern\": \"prod-*\"\n  }]\n}]\n\n            \"\"\")\n            .type(\"wildcard\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  komo-example-wildcard-policy:\n    type: komodor:Policy\n    properties:\n      statements: |+\n        [{\n          \"actions\": [\n            \"view:all\"\n          ],\n          \"resources\": [{\n            \"cluster\": \"komo-example-cluster\",\n            \"namespacePattern\": \"prod-*\"\n          }]\n        }]\n\n      type: wildcard\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n### With\u003cspan pulumi-lang-nodejs=\" komodor.Action\n\" pulumi-lang-dotnet=\" komodor.Action\n\" pulumi-lang-go=\" Action\n\" pulumi-lang-python=\" Action\n\" pulumi-lang-yaml=\" komodor.Action\n\" pulumi-lang-java=\" komodor.Action\n\"\u003e komodor.Action\n\u003c/span\u003e\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst komo_example_pod_viewer = new komodor.Action(\"komo-example-pod-viewer\", {\n    action: \"pod-viewer\",\n    description: \"View pods\",\n    ruleset: `[\n  {\n    \"apiGroups\": [\n      \"apps\"\n    ],\n    \"resources\": [\n      \"pods\"\n    ],\n    \"verbs\": [\n      \"get\",\n      \"list\"\n    ]\n  }\n]\n\n`,\n});\nconst komo_example_policy = new komodor.Policy(\"komo-example-policy\", {statements: pulumi.interpolate`[{\n  \"actions\": [\n    \"${komo_example_pod_viewer.action}\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"komo-example-cluster\",\n    \"namespaces\": [\n      \"default\",\n      \"kube-system\"\n    ]\n  }]\n}]\n\n`});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\nkomo_example_pod_viewer = komodor.Action(\"komo-example-pod-viewer\",\n    action=\"pod-viewer\",\n    description=\"View pods\",\n    ruleset=\"\"\"[\n  {\n    \"apiGroups\": [\n      \"apps\"\n    ],\n    \"resources\": [\n      \"pods\"\n    ],\n    \"verbs\": [\n      \"get\",\n      \"list\"\n    ]\n  }\n]\n\n\"\"\")\nkomo_example_policy = komodor.Policy(\"komo-example-policy\", statements=komo_example_pod_viewer.action.apply(lambda action: f\"\"\"[{{\n  \"actions\": [\n    \"{action}\"\n  ],\n  \"resources\": [{{\n    \"cluster\": \"komo-example-cluster\",\n    \"namespaces\": [\n      \"default\",\n      \"kube-system\"\n    ]\n  }}]\n}}]\n\n\"\"\"))\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var komo_example_pod_viewer = new Komodor.Action(\"komo-example-pod-viewer\", new()\n    {\n        Action = \"pod-viewer\",\n        Description = \"View pods\",\n        Ruleset = @\"[\n  {\n    \"\"apiGroups\"\": [\n      \"\"apps\"\"\n    ],\n    \"\"resources\"\": [\n      \"\"pods\"\"\n    ],\n    \"\"verbs\"\": [\n      \"\"get\"\",\n      \"\"list\"\"\n    ]\n  }\n]\n\n\",\n    });\n\n    var komo_example_policy = new Komodor.Policy(\"komo-example-policy\", new()\n    {\n        Statements = komo_example_pod_viewer.Action.Apply(action =\u003e @$\"[{{\n  \"\"actions\"\": [\n    \"\"{action}\"\"\n  ],\n  \"\"resources\"\": [{{\n    \"\"cluster\"\": \"\"komo-example-cluster\"\",\n    \"\"namespaces\"\": [\n      \"\"default\"\",\n      \"\"kube-system\"\"\n    ]\n  }}]\n}}]\n\n\"),\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"fmt\"\n\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\tkomo_example_pod_viewer, err := komodor.NewAction(ctx, \"komo-example-pod-viewer\", \u0026komodor.ActionArgs{\n\t\t\tAction:      pulumi.String(\"pod-viewer\"),\n\t\t\tDescription: pulumi.String(\"View pods\"),\n\t\t\tRuleset: pulumi.String(`[\n  {\n    \"apiGroups\": [\n      \"apps\"\n    ],\n    \"resources\": [\n      \"pods\"\n    ],\n    \"verbs\": [\n      \"get\",\n      \"list\"\n    ]\n  }\n]\n\n`),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\t_, err = komodor.NewPolicy(ctx, \"komo-example-policy\", \u0026komodor.PolicyArgs{\n\t\t\tStatements: komo_example_pod_viewer.Action.ApplyT(func(action string) (string, error) {\n\t\t\t\treturn fmt.Sprintf(`[{\n  \"actions\": [\n    \"%v\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"komo-example-cluster\",\n    \"namespaces\": [\n      \"default\",\n      \"kube-system\"\n    ]\n  }]\n}]\n\n`, action), nil\n\t\t\t}).(pulumi.StringOutput),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.Action;\nimport com.pulumi.komodor.ActionArgs;\nimport com.pulumi.komodor.Policy;\nimport com.pulumi.komodor.PolicyArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var komo_example_pod_viewer = new Action(\"komo-example-pod-viewer\", ActionArgs.builder()\n            .action(\"pod-viewer\")\n            .description(\"View pods\")\n            .ruleset(\"\"\"\n[\n  {\n    \"apiGroups\": [\n      \"apps\"\n    ],\n    \"resources\": [\n      \"pods\"\n    ],\n    \"verbs\": [\n      \"get\",\n      \"list\"\n    ]\n  }\n]\n\n            \"\"\")\n            .build());\n\n        var komo_example_policy = new Policy(\"komo-example-policy\", PolicyArgs.builder()\n            .statements(komo_example_pod_viewer.action().applyValue(_action -\u003e \"\"\"\n[{\n  \"actions\": [\n    \"%s\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"komo-example-cluster\",\n    \"namespaces\": [\n      \"default\",\n      \"kube-system\"\n    ]\n  }]\n}]\n\n\", _action)))\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  komo-example-pod-viewer:\n    type: komodor:Action\n    properties:\n      action: pod-viewer\n      description: View pods\n      ruleset: |+\n        [\n          {\n            \"apiGroups\": [\n              \"apps\"\n            ],\n            \"resources\": [\n              \"pods\"\n            ],\n            \"verbs\": [\n              \"get\",\n              \"list\"\n            ]\n          }\n        ]\n\n  komo-example-policy:\n    type: komodor:Policy\n    properties:\n      statements: |+\n        [{\n          \"actions\": [\n            \"${[\"komo-example-pod-viewer\"].action}\"\n          ],\n          \"resources\": [{\n            \"cluster\": \"komo-example-cluster\",\n            \"namespaces\": [\n              \"default\",\n              \"kube-system\"\n            ]\n          }]\n        }]\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "statements": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "createdAt",
+                "name",
+                "statements",
+                "updatedAt"
+            ],
+            "inputProperties": {
+                "name": {
+                    "type": "string"
+                },
+                "statements": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "requiredInputs": [
+                "statements"
+            ],
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Policy resources.\n",
+                "properties": {
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "statements": {
+                        "type": "string"
+                    },
+                    "tags": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "komodor:index/policyRoleAttachment:PolicyRoleAttachment": {
+            "description": "Creates a logical binding between a Komodor Role and a Komodor Policy\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst my_policy = new komodor.Policy(\"my-policy\", {statements: `[{\n  \"actions\": [\n    \"get:daemonset\",\n    \"edit:cronjob\",\n    \"delete:service\",\n    \"edit:job\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"kind-kind\",\n    \"namespaces\": [\n      \"default\",\n      \"komodor\"\n    ]\n  }]\n}]\n`});\nconst my_role = new komodor.Role(\"my-role\", {});\nconst my_attachement = new komodor.PolicyRoleAttachment(\"my-attachement\", {\n    policies: [my_policy.id],\n    role: my_role.id,\n});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\nmy_policy = komodor.Policy(\"my-policy\", statements=\"\"\"[{\n  \"actions\": [\n    \"get:daemonset\",\n    \"edit:cronjob\",\n    \"delete:service\",\n    \"edit:job\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"kind-kind\",\n    \"namespaces\": [\n      \"default\",\n      \"komodor\"\n    ]\n  }]\n}]\n\"\"\")\nmy_role = komodor.Role(\"my-role\")\nmy_attachement = komodor.PolicyRoleAttachment(\"my-attachement\",\n    policies=[my_policy.id],\n    role=my_role.id)\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var my_policy = new Komodor.Policy(\"my-policy\", new()\n    {\n        Statements = @\"[{\n  \"\"actions\"\": [\n    \"\"get:daemonset\"\",\n    \"\"edit:cronjob\"\",\n    \"\"delete:service\"\",\n    \"\"edit:job\"\"\n  ],\n  \"\"resources\"\": [{\n    \"\"cluster\"\": \"\"kind-kind\"\",\n    \"\"namespaces\"\": [\n      \"\"default\"\",\n      \"\"komodor\"\"\n    ]\n  }]\n}]\n\",\n    });\n\n    var my_role = new Komodor.Role(\"my-role\");\n\n    var my_attachement = new Komodor.PolicyRoleAttachment(\"my-attachement\", new()\n    {\n        Policies = new[]\n        {\n            my_policy.Id,\n        },\n        Role = my_role.Id,\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\tmy_policy, err := komodor.NewPolicy(ctx, \"my-policy\", \u0026komodor.PolicyArgs{\n\t\t\tStatements: pulumi.String(`[{\n  \"actions\": [\n    \"get:daemonset\",\n    \"edit:cronjob\",\n    \"delete:service\",\n    \"edit:job\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"kind-kind\",\n    \"namespaces\": [\n      \"default\",\n      \"komodor\"\n    ]\n  }]\n}]\n`),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\tmy_role, err := komodor.NewRole(ctx, \"my-role\", nil)\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\t_, err = komodor.NewPolicyRoleAttachment(ctx, \"my-attachement\", \u0026komodor.PolicyRoleAttachmentArgs{\n\t\t\tPolicies: pulumi.StringArray{\n\t\t\t\tmy_policy.ID(),\n\t\t\t},\n\t\t\tRole: my_role.ID(),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.Policy;\nimport com.pulumi.komodor.PolicyArgs;\nimport com.pulumi.komodor.Role;\nimport com.pulumi.komodor.PolicyRoleAttachment;\nimport com.pulumi.komodor.PolicyRoleAttachmentArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var my_policy = new Policy(\"my-policy\", PolicyArgs.builder()\n            .statements(\"\"\"\n[{\n  \"actions\": [\n    \"get:daemonset\",\n    \"edit:cronjob\",\n    \"delete:service\",\n    \"edit:job\"\n  ],\n  \"resources\": [{\n    \"cluster\": \"kind-kind\",\n    \"namespaces\": [\n      \"default\",\n      \"komodor\"\n    ]\n  }]\n}]\n            \"\"\")\n            .build());\n\n        var my_role = new Role(\"my-role\");\n\n        var my_attachement = new PolicyRoleAttachment(\"my-attachement\", PolicyRoleAttachmentArgs.builder()\n            .policies(my_policy.id())\n            .role(my_role.id())\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  my-policy:\n    type: komodor:Policy\n    properties:\n      statements: |\n        [{\n          \"actions\": [\n            \"get:daemonset\",\n            \"edit:cronjob\",\n            \"delete:service\",\n            \"edit:job\"\n          ],\n          \"resources\": [{\n            \"cluster\": \"kind-kind\",\n            \"namespaces\": [\n              \"default\",\n              \"komodor\"\n            ]\n          }]\n        }]\n  my-role:\n    type: komodor:Role\n  my-attachement:\n    type: komodor:PolicyRoleAttachment\n    properties:\n      policies:\n        - ${[\"my-policy\"].id}\n      role: ${[\"my-role\"].id}\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "policies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "role": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "policies",
+                "role"
+            ],
+            "inputProperties": {
+                "name": {
+                    "type": "string",
+                    "willReplaceOnChanges": true
+                },
+                "policies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "role": {
+                    "type": "string"
+                }
+            },
+            "requiredInputs": [
+                "policies",
+                "role"
+            ],
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering PolicyRoleAttachment resources.\n",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "willReplaceOnChanges": true
+                    },
+                    "policies": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "role": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "komodor:index/role:Role": {
+            "description": "Creates a Komodor RBAC Role that when combined with a Policy,\n\ndefines a set of actions one can perform on resources through the Komodor Platform\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst my_role = new komodor.Role(\"my-role\", {});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\nmy_role = komodor.Role(\"my-role\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var my_role = new Komodor.Role(\"my-role\");\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := komodor.NewRole(ctx, \"my-role\", nil)\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.Role;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var my_role = new Role(\"my-role\");\n\n    }\n}\n```\n```yaml\nresources:\n  my-role:\n    type: komodor:Role\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "isDefault": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "createdAt",
+                "isDefault",
+                "name",
+                "updatedAt"
+            ],
+            "inputProperties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Role resources.\n",
+                "properties": {
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "isDefault": {
+                        "type": "boolean"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "functions": {
+        "komodor:index/getKubernetes:getKubernetes": {
+            "description": "Retrieves an existing Komodor Kubernetes cluster integration by name\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst dataK8sCluster = komodor.getKubernetes({\n    clusterName: \"my-cluster\",\n});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\ndata_k8s_cluster = komodor.get_kubernetes(cluster_name=\"my-cluster\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var dataK8sCluster = Komodor.GetKubernetes.Invoke(new()\n    {\n        ClusterName = \"my-cluster\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := komodor.LookupKubernetes(ctx, \u0026komodor.LookupKubernetesArgs{\n\t\t\tClusterName: \"my-cluster\",\n\t\t}, nil)\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.KomodorFunctions;\nimport com.pulumi.komodor.inputs.GetKubernetesArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        final var dataK8sCluster = KomodorFunctions.getKubernetes(GetKubernetesArgs.builder()\n            .clusterName(\"my-cluster\")\n            .build());\n\n    }\n}\n```\n```yaml\nvariables:\n  dataK8sCluster:\n    fn::invoke:\n      function: komodor:getKubernetes\n      arguments:\n        clusterName: my-cluster\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "inputs": {
+                "description": "A collection of arguments for invoking getKubernetes.\n",
+                "properties": {
+                    "clusterName": {
+                        "type": "string",
+                        "description": "The name of the cluster; must be unique to a Komodor account\n"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "clusterName"
+                ]
+            },
+            "outputs": {
+                "description": "A collection of values returned by getKubernetes.\n",
+                "properties": {
+                    "clusterName": {
+                        "type": "string",
+                        "description": "The name of the cluster; must be unique to a Komodor account\n"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The id and api key of the cluster integration\n"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "clusterName",
+                    "id"
+                ]
+            }
+        },
+        "komodor:index/getPolicy:getPolicy": {
+            "description": "Retrieves an existing Komodor Policy by name\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst dataK8sCluster = komodor.getPolicy({\n    name: \"my-policy\",\n});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\ndata_k8s_cluster = komodor.get_policy(name=\"my-policy\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var dataK8sCluster = Komodor.GetPolicy.Invoke(new()\n    {\n        Name = \"my-policy\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := komodor.LookupPolicy(ctx, \u0026komodor.LookupPolicyArgs{\n\t\t\tName: \"my-policy\",\n\t\t}, nil)\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.KomodorFunctions;\nimport com.pulumi.komodor.inputs.GetPolicyArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        final var dataK8sCluster = KomodorFunctions.getPolicy(GetPolicyArgs.builder()\n            .name(\"my-policy\")\n            .build());\n\n    }\n}\n```\n```yaml\nvariables:\n  dataK8sCluster:\n    fn::invoke:\n      function: komodor:getPolicy\n      arguments:\n        name: my-policy\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "inputs": {
+                "description": "A collection of arguments for invoking getPolicy.\n",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name"
+                ]
+            },
+            "outputs": {
+                "description": "A collection of values returned by getPolicy.\n",
+                "properties": {
+                    "createdAt": {
+                        "type": "string",
+                        "description": "The date and time of when the Policy was created\n"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The id of the policy\n"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "statements": {
+                        "type": "string",
+                        "description": "The policy's statements\n"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "The date and time of when the Policy was last updated\n"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "createdAt",
+                    "id",
+                    "name",
+                    "statements",
+                    "updatedAt"
+                ]
+            }
+        },
+        "komodor:index/getRole:getRole": {
+            "description": "Retrieves an existing Komodor Role by name\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as komodor from \"@pulumi/komodor\";\n\nconst role = komodor.getRole({\n    name: \"my-role\",\n});\n```\n```python\nimport pulumi\nimport pulumi_komodor as komodor\n\nrole = komodor.get_role(name=\"my-role\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Komodor = Pulumi.Komodor;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var role = Komodor.GetRole.Invoke(new()\n    {\n        Name = \"my-role\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/phillipedwards/pulumi-komodor/sdk/go/komodor\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := komodor.LookupRole(ctx, \u0026komodor.LookupRoleArgs{\n\t\t\tName: \"my-role\",\n\t\t}, nil)\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.komodor.KomodorFunctions;\nimport com.pulumi.komodor.inputs.GetRoleArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        final var role = KomodorFunctions.getRole(GetRoleArgs.builder()\n            .name(\"my-role\")\n            .build());\n\n    }\n}\n```\n```yaml\nvariables:\n  role:\n    fn::invoke:\n      function: komodor:getRole\n      arguments:\n        name: my-role\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "inputs": {
+                "description": "A collection of arguments for invoking getRole.\n",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name"
+                ]
+            },
+            "outputs": {
+                "description": "A collection of values returned by getRole.\n",
+                "properties": {
+                    "createdAt": {
+                        "type": "string",
+                        "description": "The date and time of when the Role was created\n"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The id of the role\n"
+                    },
+                    "isDefault": {
+                        "type": "boolean",
+                        "description": "Is default role\n"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "The date and time of when the Role was last updated\n"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "createdAt",
+                    "id",
+                    "isDefault",
+                    "name",
+                    "updatedAt"
+                ]
+            }
+        },
+        "pulumi:providers:komodor/terraformConfig": {
+            "description": "This function returns a Terraform config object with terraform-namecased keys,to be used with the Terraform Module Provider.",
+            "inputs": {
+                "properties": {
+                    "__self__": {
+                        "type": "ref",
+                        "$ref": "#/provider"
+                    }
+                },
+                "type": "pulumi:providers:komodor/terraformConfig",
+                "required": [
+                    "__self__"
+                ]
+            },
+            "outputs": {
+                "properties": {
+                    "result": {
+                        "additionalProperties": {
+                            "$ref": "pulumi.json#/Any"
+                        },
+                        "type": "object"
+                    }
+                },
+                "required": [
+                    "result"
+                ],
+                "type": "object"
+            }
+        }
+    }
+}

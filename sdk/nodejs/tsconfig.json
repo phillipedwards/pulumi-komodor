@@ -1,30 +1,37 @@
 {
     "compilerOptions": {
+        // Output
         "outDir": "bin",
-        "target": "ES2020",
-        "module": "commonjs",
-        "moduleResolution": "node",
         "declaration": true,
+        "declarationMap": true,
         "sourceMap": true,
         "stripInternal": true,
-        "experimentalDecorators": true,
+        // Environment
+        "target": "ES2022",
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
+        "moduleDetection": "force",
+        "types": ["node"],
+        // Type Checking
+        "strict": true,
         "noFallthroughCasesInSwitch": true,
-        "forceConsistentCasingInFileNames": true,
-        "strict": true
+        "noImplicitReturns": true,
+        "skipLibCheck": true
     },
     "files": [
+        "action.ts",
         "config/index.ts",
         "config/vars.ts",
-        "getDataSource.ts",
+        "getKubernetes.ts",
+        "getPolicy.ts",
+        "getRole.ts",
         "index.ts",
+        "kubernetes.ts",
+        "monitor.ts",
+        "policy.ts",
+        "policyRoleAttachment.ts",
         "provider.ts",
-        "region/index.ts",
-        "resource.ts",
-        "types/enums/index.ts",
-        "types/enums/region/index.ts",
-        "types/index.ts",
-        "types/input.ts",
-        "types/output.ts",
+        "role.ts",
         "utilities.ts"
     ]
 }
