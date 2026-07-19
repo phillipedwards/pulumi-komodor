@@ -82,8 +82,10 @@ jobs:
     with:
       version: ${{ needs.prerequisites.outputs.version }}
 
+#
+# Manually disabled: this pipeline authenticates to Pulumi's internal ESC/OIDC org, which this
+# repo has no access to, so it fails immediately on every run. Prerelease tag pushes are not
+# handled elsewhere yet. Re-enable the tag trigger below if this repo ever gets Pulumi ESC access.
 name: prerelease
 on:
-  push:
-    tags:
-    - v*.*.*-**
+  workflow_dispatch: {}
