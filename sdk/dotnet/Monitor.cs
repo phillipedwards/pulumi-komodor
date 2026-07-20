@@ -35,28 +35,26 @@ namespace Pulumi.Komodor
     /// {
     ///     var example_deploy_monitor = new Komodor.Monitor("example-deploy-monitor", new()
     ///     {
+    ///         Name = "example-deploy-monitor",
+    ///         Type = "deploy",
     ///         Active = true,
     ///         Sensors = @"[{
-    ///   ""cluster"": ""kind-kind"",
-    ///   ""exclude"": {
-    ///     ""namespaces"": [""komodor""]
+    ///   \""cluster\"": \""kind-kind\"",
+    ///   \""exclude\"": {
+    ///     \""namespaces\"": [\""komodor\""]
     ///   },
-    ///   ""namespaces"": [""default""]
+    ///   \""namespaces\"": [\""default\""]
     /// }]
-    /// 
     /// ",
     ///         Sinks = @"{
-    ///   ""slack"": [""deployment-alerts""],
-    ///   ""teams"": [""Platform-Team""]
+    ///   \""slack\"": [\""deployment-alerts\""],
+    ///   \""teams\"": [\""Platform-Team\""]
     /// }
-    /// 
     /// ",
     ///         SinksOptions = @"{
-    ///   ""notifyOn"": [""Failure"", ""Successful""]
+    ///   \""notifyOn\"": [\""Failure\"", \""Successful\""]
     /// }
-    /// 
     /// ",
-    ///         Type = "deploy",
     ///     });
     /// 
     /// });
@@ -110,36 +108,33 @@ namespace Pulumi.Komodor
     /// {
     ///     var example_availability_monitor = new Komodor.Monitor("example-availability-monitor", new()
     ///     {
+    ///         Name = "example-availability-monitor",
+    ///         Type = "availability",
     ///         Active = true,
     ///         Sensors = @"[{
-    ///   ""cluster"": ""kind-kind"",
-    ///   ""exclude"": {
-    ///     ""services"": [""default/excluded-service""]
+    ///   \""cluster\"": \""kind-kind\"",
+    ///   \""exclude\"": {
+    ///     \""services\"": [\""default/excluded-service\""]
     ///   },
-    ///   ""services"": [""default/important-service""],
-    ///   ""condition"": ""and"",
-    ///   ""namespaces"": [""default""]
+    ///   \""services\"": [\""default/important-service\""],
+    ///   \""condition\"": \""and\"",
+    ///   \""namespaces\"": [\""default\""]
     /// }]
-    /// 
     /// ",
     ///         Sinks = @"{
-    ///   ""slack"": [""availability-alerts""],
-    ///   ""teams"": [""SRE-Team""]
+    ///   \""slack\"": [\""availability-alerts\""],
+    ///   \""teams\"": [\""SRE-Team\""]
     /// }
-    /// 
+    /// ",
+    ///         Variables = @"{
+    ///   \""categories\"": [\""Creating/Initializing\"", \""Unhealthy - failed probes\""],
+    ///   \""duration\"": 30,
+    ///   \""minAvailable\"": \""100%\""
+    /// }
     /// ",
     ///         SinksOptions = @"{
-    ///   ""notifyOn"": [""*""]
+    ///   \""notifyOn\"": [\""*\""]
     /// }
-    /// 
-    /// ",
-    ///         Type = "availability",
-    ///         Variables = @"{
-    ///   ""categories"": [""Creating/Initializing"", ""Unhealthy - failed probes""],
-    ///   ""duration"": 30,
-    ///   ""minAvailable"": ""100%""
-    /// }
-    /// 
     /// ",
     ///     });
     /// 
@@ -168,23 +163,21 @@ namespace Pulumi.Komodor
     /// {
     ///     var example_node_monitor = new Komodor.Monitor("example-node-monitor", new()
     ///     {
+    ///         Name = "example-node-monitor",
+    ///         Type = "node",
     ///         Active = true,
     ///         Sensors = @"[{
-    ///   ""cluster"": ""kind-kind""
+    ///   \""cluster\"": \""kind-kind\""
     /// }]
-    /// 
     /// ",
     ///         Sinks = @"{
-    ///   ""slack"": [""node-alerts""]
+    ///   \""slack\"": [\""node-alerts\""]
     /// }
-    /// 
     /// ",
-    ///         Type = "node",
     ///         Variables = @"{
-    ///   ""duration"": 60,
-    ///   ""nodeCreationThreshold"": ""10m""
+    ///   \""duration\"": 60,
+    ///   \""nodeCreationThreshold\"": \""10m\""
     /// }
-    /// 
     /// ",
     ///     });
     /// 
@@ -209,20 +202,19 @@ namespace Pulumi.Komodor
     /// {
     ///     var example_workflow_monitor = new Komodor.Monitor("example-workflow-monitor", new()
     ///     {
+    ///         Name = "example-workflow-monitor",
+    ///         Type = "workflow",
     ///         Active = true,
     ///         Sensors = @"[{
-    ///   ""cluster"": ""kind-kind"",
-    ///   ""namespaces"": [""workflow-namespace""]
+    ///   \""cluster\"": \""kind-kind\"",
+    ///   \""namespaces\"": [\""workflow-namespace\""]
     /// }]
-    /// 
     /// ",
     ///         Sinks = @"{
-    ///   ""slack"": [""workflow-alerts""],
-    ///   ""webhook"": [""webhook-url""]
+    ///   \""slack\"": [\""workflow-alerts\""],
+    ///   \""webhook\"": [\""webhook-url\""]
     /// }
-    /// 
     /// ",
-    ///         Type = "workflow",
     ///     });
     /// 
     /// });
@@ -304,6 +296,7 @@ namespace Pulumi.Komodor
             var defaultOptions = new CustomResourceOptions
             {
                 Version = Utilities.Version,
+                PluginDownloadURL = "https://github.com/phillipedwards/pulumi-komodor/releases/download/v${VERSION}/",
             };
             var merged = CustomResourceOptions.Merge(defaultOptions, options);
             // Override the ID if one was specified for consistency with other language SDKs.

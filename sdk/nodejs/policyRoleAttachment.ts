@@ -13,24 +13,28 @@ import * as utilities from "./utilities";
  * import * as pulumi from "@pulumi/pulumi";
  * import * as komodor from "@pulumi/komodor";
  *
- * const my_policy = new komodor.Policy("my-policy", {statements: `[{
- *   "actions": [
- *     "get:daemonset",
- *     "edit:cronjob",
- *     "delete:service",
- *     "edit:job"
+ * const my_policy = new komodor.Policy("my-policy", {
+ *     name: "my-policy",
+ *     statements: `[{
+ *   \\"actions\\": [
+ *     \\"get:daemonset\\",
+ *     \\"edit:cronjob\\",
+ *     \\"delete:service\\",
+ *     \\"edit:job\\"
  *   ],
- *   "resources": [{
- *     "cluster": "kind-kind",
- *     "namespaces": [
- *       "default",
- *       "komodor"
+ *   \\"resources\\": [{
+ *     \\"cluster\\": \\"kind-kind\\",
+ *     \\"namespaces\\": [
+ *       \\"default\\",
+ *       \\"komodor\\"
  *     ]
  *   }]
  * }]
- * `});
- * const my_role = new komodor.Role("my-role", {});
+ * `,
+ * });
+ * const my_role = new komodor.Role("my-role", {name: "my-role"});
  * const my_attachement = new komodor.PolicyRoleAttachment("my-attachement", {
+ *     name: "test-attachement",
  *     policies: [my_policy.id],
  *     role: my_role.id,
  * });

@@ -84,7 +84,7 @@ class Kubernetes(pulumi.CustomResource):
         import pulumi
         import pulumi_komodor as komodor
 
-        k8s_cluster = komodor.Kubernetes("k8sCluster", cluster_name="my-cluster")
+        k8s_cluster = komodor.Kubernetes("k8s_cluster", cluster_name="my-cluster")
         ```
 
 
@@ -109,7 +109,7 @@ class Kubernetes(pulumi.CustomResource):
         import pulumi
         import pulumi_komodor as komodor
 
-        k8s_cluster = komodor.Kubernetes("k8sCluster", cluster_name="my-cluster")
+        k8s_cluster = komodor.Kubernetes("k8s_cluster", cluster_name="my-cluster")
         ```
 
 

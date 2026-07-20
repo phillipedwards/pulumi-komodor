@@ -24,22 +24,22 @@ namespace Pulumi.Komodor
     /// {
     ///     var my_policy = new Komodor.Policy("my-policy", new()
     ///     {
+    ///         Name = "my-policy",
     ///         Statements = @"[{
-    ///   ""actions"": [
-    ///     ""get:daemonset"",
-    ///     ""edit:cronjob"",
-    ///     ""delete:service"",
-    ///     ""edit:job""
+    ///   \""actions\"": [
+    ///     \""get:daemonset\"",
+    ///     \""edit:cronjob\"",
+    ///     \""delete:service\"",
+    ///     \""edit:job\""
     ///   ],
-    ///   ""resources"": [{
-    ///     ""cluster"": ""kind-kind"",
-    ///     ""namespaces"": [
-    ///       ""default"",
-    ///       ""komodor""
+    ///   \""resources\"": [{
+    ///     \""cluster\"": \""kind-kind\"",
+    ///     \""namespaces\"": [
+    ///       \""default\"",
+    ///       \""komodor\""
     ///     ]
     ///   }]
     /// }]
-    /// 
     /// ",
     ///     });
     /// 
@@ -61,16 +61,17 @@ namespace Pulumi.Komodor
     ///     // When the feature is disabled, applying this policy will fail with error: `400 Bad Request`
     ///     var komo_example_dynamic_tags_policy = new Komodor.Policy("komo-example-dynamic-tags-policy", new()
     ///     {
+    ///         Name = "komo-example-dynamic-tags-policy",
     ///         Type = "dynamic_tag",
     ///         Tags = 
     ///         {
     ///             { "team", "super-heroes" },
     ///         },
     ///         Statements = @"[{
-    ///   ""actions"": [
-    ///     ""view:all""
+    ///   \""actions\"": [
+    ///     \""view:all\""
     ///   ],
-    ///   ""resources"": []
+    ///   \""resources\"": []
     /// }]
     /// ",
     ///     });
@@ -88,20 +89,23 @@ namespace Pulumi.Komodor
     /// 
     /// return await Deployment.RunAsync(() =&gt; 
     /// {
+    ///     // This example shows how to create a policy with a wildcard namespace pattern.
+    ///     // wildcard policy type is not available by default.
+    ///     // When the feature is disabled, applying this policy will fail with error: `400 Bad Request`
     ///     var komo_example_wildcard_policy = new Komodor.Policy("komo-example-wildcard-policy", new()
     ///     {
+    ///         Name = "komo-example-wildcard-policy",
+    ///         Type = "wildcard",
     ///         Statements = @"[{
-    ///   ""actions"": [
-    ///     ""view:all""
+    ///   \""actions\"": [
+    ///     \""view:all\""
     ///   ],
-    ///   ""resources"": [{
-    ///     ""cluster"": ""komo-example-cluster"",
-    ///     ""namespacePattern"": ""prod-*""
+    ///   \""resources\"": [{
+    ///     \""cluster\"": \""komo-example-cluster\"",
+    ///     \""namespacePattern\"": \""prod-*\""
     ///   }]
     /// }]
-    /// 
     /// ",
-    ///         Type = "wildcard",
     ///     });
     /// 
     /// });
@@ -119,41 +123,40 @@ namespace Pulumi.Komodor
     /// {
     ///     var komo_example_pod_viewer = new Komodor.Action("komo-example-pod-viewer", new()
     ///     {
-    ///         Action = "pod-viewer",
+    ///         ActionName = "pod-viewer",
     ///         Description = "View pods",
     ///         Ruleset = @"[
     ///   {
-    ///     ""apiGroups"": [
-    ///       ""apps""
+    ///     \""apiGroups\"": [
+    ///       \""apps\""
     ///     ],
-    ///     ""resources"": [
-    ///       ""pods""
+    ///     \""resources\"": [
+    ///       \""pods\""
     ///     ],
-    ///     ""verbs"": [
-    ///       ""get"",
-    ///       ""list""
+    ///     \""verbs\"": [
+    ///       \""get\"",
+    ///       \""list\""
     ///     ]
     ///   }
     /// ]
-    /// 
     /// ",
     ///     });
     /// 
     ///     var komo_example_policy = new Komodor.Policy("komo-example-policy", new()
     ///     {
-    ///         Statements = komo_example_pod_viewer.Action.Apply(action =&gt; @$"[{{
-    ///   ""actions"": [
-    ///     ""{action}""
+    ///         Name = "komo-example-policy",
+    ///         Statements = komo_example_pod_viewer.ActionName.Apply(action =&gt; @$"[{{
+    ///   \""actions\"": [
+    ///     \""{action}\""
     ///   ],
-    ///   ""resources"": [{{
-    ///     ""cluster"": ""komo-example-cluster"",
-    ///     ""namespaces"": [
-    ///       ""default"",
-    ///       ""kube-system""
+    ///   \""resources\"": [{{
+    ///     \""cluster\"": \""komo-example-cluster\"",
+    ///     \""namespaces\"": [
+    ///       \""default\"",
+    ///       \""kube-system\""
     ///     ]
     ///   }}]
     /// }}]
-    /// 
     /// "),
     ///     });
     /// 
@@ -204,6 +207,7 @@ namespace Pulumi.Komodor
             var defaultOptions = new CustomResourceOptions
             {
                 Version = Utilities.Version,
+                PluginDownloadURL = "https://github.com/phillipedwards/pulumi-komodor/releases/download/v${VERSION}/",
             };
             var merged = CustomResourceOptions.Merge(defaultOptions, options);
             // Override the ID if one was specified for consistency with other language SDKs.

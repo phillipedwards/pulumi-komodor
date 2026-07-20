@@ -40,26 +40,21 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := komodor.NewMonitor(ctx, "example-deploy-monitor", &komodor.MonitorArgs{
+//				Name:   pulumi.String("example-deploy-monitor"),
+//				Type:   pulumi.String("deploy"),
 //				Active: pulumi.Bool(true),
 //				Sensors: pulumi.String(`[{
-//	  "cluster": "kind-kind",
-//	  "exclude": {
-//	    "namespaces": ["komodor"]
+//	  \"cluster\": \"kind-kind\",
+//	  \"exclude\": {
+//	    \"namespaces\": [\"komodor\"]
 //	  },
-//	  "namespaces": ["default"]
+//	  \"namespaces\": [\"default\"]
 //	}]
 //
 // `),
 //
-//				Sinks: pulumi.String(`{
-//	  "slack": ["deployment-alerts"],
-//	  "teams": ["Platform-Team"]
-//	}
-//
-// `),
-//
-//				SinksOptions: pulumi.String("{\n  \"notifyOn\": [\"Failure\", \"Successful\"]\n}\n\n"),
-//				Type:         pulumi.String("deploy"),
+//				Sinks:        pulumi.String("{\n  \\\"slack\\\": [\\\"deployment-alerts\\\"],\n  \\\"teams\\\": [\\\"Platform-Team\\\"]\n}\n"),
+//				SinksOptions: pulumi.String("{\n  \\\"notifyOn\\\": [\\\"Failure\\\", \\\"Successful\\\"]\n}\n"),
 //			})
 //			if err != nil {
 //				return err
@@ -122,36 +117,31 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := komodor.NewMonitor(ctx, "example-availability-monitor", &komodor.MonitorArgs{
+//				Name:   pulumi.String("example-availability-monitor"),
+//				Type:   pulumi.String("availability"),
 //				Active: pulumi.Bool(true),
 //				Sensors: pulumi.String(`[{
-//	  "cluster": "kind-kind",
-//	  "exclude": {
-//	    "services": ["default/excluded-service"]
+//	  \"cluster\": \"kind-kind\",
+//	  \"exclude\": {
+//	    \"services\": [\"default/excluded-service\"]
 //	  },
-//	  "services": ["default/important-service"],
-//	  "condition": "and",
-//	  "namespaces": ["default"]
+//	  \"services\": [\"default/important-service\"],
+//	  \"condition\": \"and\",
+//	  \"namespaces\": [\"default\"]
 //	}]
 //
 // `),
 //
-//				Sinks: pulumi.String(`{
-//	  "slack": ["availability-alerts"],
-//	  "teams": ["SRE-Team"]
-//	}
-//
-// `),
-//
-//				SinksOptions: pulumi.String("{\n  \"notifyOn\": [\"*\"]\n}\n\n"),
-//				Type:         pulumi.String("availability"),
+//				Sinks: pulumi.String("{\n  \\\"slack\\\": [\\\"availability-alerts\\\"],\n  \\\"teams\\\": [\\\"SRE-Team\\\"]\n}\n"),
 //				Variables: pulumi.String(`{
-//	  "categories": ["Creating/Initializing", "Unhealthy - failed probes"],
-//	  "duration": 30,
-//	  "minAvailable": "100%"
+//	  \"categories\": [\"Creating/Initializing\", \"Unhealthy - failed probes\"],
+//	  \"duration\": 30,
+//	  \"minAvailable\": \"100%\"
 //	}
 //
 // `),
 //
+//				SinksOptions: pulumi.String("{\n  \\\"notifyOn\\\": [\\\"*\\\"]\n}\n"),
 //			})
 //			if err != nil {
 //				return err
@@ -187,17 +177,12 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := komodor.NewMonitor(ctx, "example-node-monitor", &komodor.MonitorArgs{
-//				Active:  pulumi.Bool(true),
-//				Sensors: pulumi.String("[{\n  \"cluster\": \"kind-kind\"\n}]\n\n"),
-//				Sinks:   pulumi.String("{\n  \"slack\": [\"node-alerts\"]\n}\n\n"),
-//				Type:    pulumi.String("node"),
-//				Variables: pulumi.String(`{
-//	  "duration": 60,
-//	  "nodeCreationThreshold": "10m"
-//	}
-//
-// `),
-//
+//				Name:      pulumi.String("example-node-monitor"),
+//				Type:      pulumi.String("node"),
+//				Active:    pulumi.Bool(true),
+//				Sensors:   pulumi.String("[{\n  \\\"cluster\\\": \\\"kind-kind\\\"\n}]\n"),
+//				Sinks:     pulumi.String("{\n  \\\"slack\\\": [\\\"node-alerts\\\"]\n}\n"),
+//				Variables: pulumi.String("{\n  \\\"duration\\\": 60,\n  \\\"nodeCreationThreshold\\\": \\\"10m\\\"\n}\n"),
 //			})
 //			if err != nil {
 //				return err
@@ -229,22 +214,11 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := komodor.NewMonitor(ctx, "example-workflow-monitor", &komodor.MonitorArgs{
-//				Active: pulumi.Bool(true),
-//				Sensors: pulumi.String(`[{
-//	  "cluster": "kind-kind",
-//	  "namespaces": ["workflow-namespace"]
-//	}]
-//
-// `),
-//
-//				Sinks: pulumi.String(`{
-//	  "slack": ["workflow-alerts"],
-//	  "webhook": ["webhook-url"]
-//	}
-//
-// `),
-//
-//				Type: pulumi.String("workflow"),
+//				Name:    pulumi.String("example-workflow-monitor"),
+//				Type:    pulumi.String("workflow"),
+//				Active:  pulumi.Bool(true),
+//				Sensors: pulumi.String("[{\n  \\\"cluster\\\": \\\"kind-kind\\\",\n  \\\"namespaces\\\": [\\\"workflow-namespace\\\"]\n}]\n"),
+//				Sinks:   pulumi.String("{\n  \\\"slack\\\": [\\\"workflow-alerts\\\"],\n  \\\"webhook\\\": [\\\"webhook-url\\\"]\n}\n"),
 //			})
 //			if err != nil {
 //				return err

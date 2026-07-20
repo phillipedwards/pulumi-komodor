@@ -111,7 +111,7 @@ class Role(pulumi.CustomResource):
         import pulumi
         import pulumi_komodor as komodor
 
-        my_role = komodor.Role("my-role")
+        my_role = komodor.Role("my-role", name="my-role")
         ```
 
 
@@ -135,7 +135,7 @@ class Role(pulumi.CustomResource):
         import pulumi
         import pulumi_komodor as komodor
 
-        my_role = komodor.Role("my-role")
+        my_role = komodor.Role("my-role", name="my-role")
         ```
 
 

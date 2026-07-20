@@ -15,7 +15,7 @@ import * as utilities from "./utilities";
  * import * as pulumi from "@pulumi/pulumi";
  * import * as komodor from "@pulumi/komodor";
  *
- * const my_role = new komodor.Role("my-role", {});
+ * const my_role = new komodor.Role("my-role", {name: "my-role"});
  * ```
  */
 export class Role extends pulumi.CustomResource {

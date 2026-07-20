@@ -18,35 +18,36 @@ import * as utilities from "./utilities";
  *     description: "View pods",
  *     ruleset: `[
  *   {
- *     "apiGroups": [
- *       "apps"
+ *     \\"apiGroups\\": [
+ *       \\"apps\\"
  *     ],
- *     "resources": [
- *       "pods"
+ *     \\"resources\\": [
+ *       \\"pods\\"
  *     ],
- *     "verbs": [
- *       "get",
- *       "list"
+ *     \\"verbs\\": [
+ *       \\"get\\",
+ *       \\"list\\"
  *     ]
  *   }
  * ]
- *
  * `,
  * });
- * const komo_example_policy = new komodor.Policy("komo-example-policy", {statements: pulumi.interpolate`[{
- *   "actions": [
- *     "${komo_example_pod_viewer.action}"
+ * const komo_example_policy = new komodor.Policy("komo-example-policy", {
+ *     name: "komo-example-policy",
+ *     statements: pulumi.interpolate`[{
+ *   \"actions\": [
+ *     \"${komo_example_pod_viewer.action}\"
  *   ],
- *   "resources": [{
- *     "cluster": "komo-example-cluster",
- *     "namespaces": [
- *       "default",
- *       "kube-system"
+ *   \"resources\": [{
+ *     \"cluster\": \"komo-example-cluster\",
+ *     \"namespaces\": [
+ *       \"default\",
+ *       \"kube-system\"
  *     ]
  *   }]
  * }]
- *
- * `});
+ * `,
+ * });
  * ```
  */
 export class Action extends pulumi.CustomResource {

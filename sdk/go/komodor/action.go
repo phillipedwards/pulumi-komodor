@@ -35,20 +35,19 @@ import (
 //				Description: pulumi.String("View pods"),
 //				Ruleset: pulumi.String(`[
 //	  {
-//	    "apiGroups": [
-//	      "apps"
+//	    \"apiGroups\": [
+//	      \"apps\"
 //	    ],
-//	    "resources": [
-//	      "pods"
+//	    \"resources\": [
+//	      \"pods\"
 //	    ],
-//	    "verbs": [
-//	      "get",
-//	      "list"
+//	    \"verbs\": [
+//	      \"get\",
+//	      \"list\"
 //	    ]
 //	  }
 //
 // ]
-//
 // `),
 //
 //			})
@@ -56,16 +55,17 @@ import (
 //				return err
 //			}
 //			_, err = komodor.NewPolicy(ctx, "komo-example-policy", &komodor.PolicyArgs{
+//				Name: pulumi.String("komo-example-policy"),
 //				Statements: komo_example_pod_viewer.Action.ApplyT(func(action string) (string, error) {
 //					return fmt.Sprintf(`[{
-//	  "actions": [
-//	    "%v"
+//	  \"actions\": [
+//	    \"%v\"
 //	  ],
-//	  "resources": [{
-//	    "cluster": "komo-example-cluster",
-//	    "namespaces": [
-//	      "default",
-//	      "kube-system"
+//	  \"resources\": [{
+//	    \"cluster\": \"komo-example-cluster\",
+//	    \"namespaces\": [
+//	      \"default\",
+//	      \"kube-system\"
 //	    ]
 //	  }]
 //	}]

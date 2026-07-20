@@ -24,41 +24,40 @@ namespace Pulumi.Komodor
     /// {
     ///     var komo_example_pod_viewer = new Komodor.Action("komo-example-pod-viewer", new()
     ///     {
-    ///         Action = "pod-viewer",
+    ///         ActionName = "pod-viewer",
     ///         Description = "View pods",
     ///         Ruleset = @"[
     ///   {
-    ///     ""apiGroups"": [
-    ///       ""apps""
+    ///     \""apiGroups\"": [
+    ///       \""apps\""
     ///     ],
-    ///     ""resources"": [
-    ///       ""pods""
+    ///     \""resources\"": [
+    ///       \""pods\""
     ///     ],
-    ///     ""verbs"": [
-    ///       ""get"",
-    ///       ""list""
+    ///     \""verbs\"": [
+    ///       \""get\"",
+    ///       \""list\""
     ///     ]
     ///   }
     /// ]
-    /// 
     /// ",
     ///     });
     /// 
     ///     var komo_example_policy = new Komodor.Policy("komo-example-policy", new()
     ///     {
-    ///         Statements = komo_example_pod_viewer.Action.Apply(action =&gt; @$"[{{
-    ///   ""actions"": [
-    ///     ""{action}""
+    ///         Name = "komo-example-policy",
+    ///         Statements = komo_example_pod_viewer.ActionName.Apply(action =&gt; @$"[{{
+    ///   \""actions\"": [
+    ///     \""{action}\""
     ///   ],
-    ///   ""resources"": [{{
-    ///     ""cluster"": ""komo-example-cluster"",
-    ///     ""namespaces"": [
-    ///       ""default"",
-    ///       ""kube-system""
+    ///   \""resources\"": [{{
+    ///     \""cluster\"": \""komo-example-cluster\"",
+    ///     \""namespaces\"": [
+    ///       \""default\"",
+    ///       \""kube-system\""
     ///     ]
     ///   }}]
     /// }}]
-    /// 
     /// "),
     ///     });
     /// 
@@ -69,7 +68,7 @@ namespace Pulumi.Komodor
     public partial class Action : global::Pulumi.CustomResource
     {
         [Output("action")]
-        public Output<string> Action { get; private set; } = null!;
+        public Output<string> ActionName { get; private set; } = null!;
 
         [Output("createdAt")]
         public Output<string> CreatedAt { get; private set; } = null!;
@@ -106,6 +105,7 @@ namespace Pulumi.Komodor
             var defaultOptions = new CustomResourceOptions
             {
                 Version = Utilities.Version,
+                PluginDownloadURL = "https://github.com/phillipedwards/pulumi-komodor/releases/download/v${VERSION}/",
             };
             var merged = CustomResourceOptions.Merge(defaultOptions, options);
             // Override the ID if one was specified for consistency with other language SDKs.
@@ -130,7 +130,7 @@ namespace Pulumi.Komodor
     public sealed class ActionArgs : global::Pulumi.ResourceArgs
     {
         [Input("action", required: true)]
-        public Input<string> Action { get; set; } = null!;
+        public Input<string> ActionName { get; set; } = null!;
 
         [Input("description", required: true)]
         public Input<string> Description { get; set; } = null!;
@@ -147,7 +147,7 @@ namespace Pulumi.Komodor
     public sealed class ActionState : global::Pulumi.ResourceArgs
     {
         [Input("action")]
-        public Input<string>? Action { get; set; }
+        public Input<string>? ActionName { get; set; }
 
         [Input("createdAt")]
         public Input<string>? CreatedAt { get; set; }

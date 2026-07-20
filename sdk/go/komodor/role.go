@@ -29,7 +29,9 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := komodor.NewRole(ctx, "my-role", nil)
+//			_, err := komodor.NewRole(ctx, "my-role", &komodor.RoleArgs{
+//				Name: pulumi.String("my-role"),
+//			})
 //			if err != nil {
 //				return err
 //			}

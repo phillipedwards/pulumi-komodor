@@ -149,33 +149,33 @@ class Action(pulumi.CustomResource):
             description="View pods",
             ruleset=\"\"\"[
           {
-            "apiGroups": [
-              "apps"
+            \\"apiGroups\\": [
+              \\"apps\\"
             ],
-            "resources": [
-              "pods"
+            \\"resources\\": [
+              \\"pods\\"
             ],
-            "verbs": [
-              "get",
-              "list"
+            \\"verbs\\": [
+              \\"get\\",
+              \\"list\\"
             ]
           }
         ]
-
         \"\"\")
-        komo_example_policy = komodor.Policy("komo-example-policy", statements=komo_example_pod_viewer.action.apply(lambda action: f\"\"\"[{{
-          "actions": [
-            "{action}"
+        komo_example_policy = komodor.Policy("komo-example-policy",
+            name="komo-example-policy",
+            statements=komo_example_pod_viewer.action.apply(lambda action: f\"\"\"[{{
+          \\"actions\\": [
+            \\"{action}\\"
           ],
-          "resources": [{{
-            "cluster": "komo-example-cluster",
-            "namespaces": [
-              "default",
-              "kube-system"
+          \\"resources\\": [{{
+            \\"cluster\\": \\"komo-example-cluster\\",
+            \\"namespaces\\": [
+              \\"default\\",
+              \\"kube-system\\"
             ]
           }}]
         }}]
-
         \"\"\"))
         ```
 
@@ -203,33 +203,33 @@ class Action(pulumi.CustomResource):
             description="View pods",
             ruleset=\"\"\"[
           {
-            "apiGroups": [
-              "apps"
+            \\"apiGroups\\": [
+              \\"apps\\"
             ],
-            "resources": [
-              "pods"
+            \\"resources\\": [
+              \\"pods\\"
             ],
-            "verbs": [
-              "get",
-              "list"
+            \\"verbs\\": [
+              \\"get\\",
+              \\"list\\"
             ]
           }
         ]
-
         \"\"\")
-        komo_example_policy = komodor.Policy("komo-example-policy", statements=komo_example_pod_viewer.action.apply(lambda action: f\"\"\"[{{
-          "actions": [
-            "{action}"
+        komo_example_policy = komodor.Policy("komo-example-policy",
+            name="komo-example-policy",
+            statements=komo_example_pod_viewer.action.apply(lambda action: f\"\"\"[{{
+          \\"actions\\": [
+            \\"{action}\\"
           ],
-          "resources": [{{
-            "cluster": "komo-example-cluster",
-            "namespaces": [
-              "default",
-              "kube-system"
+          \\"resources\\": [{{
+            \\"cluster\\": \\"komo-example-cluster\\",
+            \\"namespaces\\": [
+              \\"default\\",
+              \\"kube-system\\"
             ]
           }}]
         }}]
-
         \"\"\"))
         ```
 

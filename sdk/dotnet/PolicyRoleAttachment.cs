@@ -24,28 +24,33 @@ namespace Pulumi.Komodor
     /// {
     ///     var my_policy = new Komodor.Policy("my-policy", new()
     ///     {
+    ///         Name = "my-policy",
     ///         Statements = @"[{
-    ///   ""actions"": [
-    ///     ""get:daemonset"",
-    ///     ""edit:cronjob"",
-    ///     ""delete:service"",
-    ///     ""edit:job""
+    ///   \""actions\"": [
+    ///     \""get:daemonset\"",
+    ///     \""edit:cronjob\"",
+    ///     \""delete:service\"",
+    ///     \""edit:job\""
     ///   ],
-    ///   ""resources"": [{
-    ///     ""cluster"": ""kind-kind"",
-    ///     ""namespaces"": [
-    ///       ""default"",
-    ///       ""komodor""
+    ///   \""resources\"": [{
+    ///     \""cluster\"": \""kind-kind\"",
+    ///     \""namespaces\"": [
+    ///       \""default\"",
+    ///       \""komodor\""
     ///     ]
     ///   }]
     /// }]
     /// ",
     ///     });
     /// 
-    ///     var my_role = new Komodor.Role("my-role");
+    ///     var my_role = new Komodor.Role("my-role", new()
+    ///     {
+    ///         Name = "my-role",
+    ///     });
     /// 
     ///     var my_attachement = new Komodor.PolicyRoleAttachment("my-attachement", new()
     ///     {
+    ///         Name = "test-attachement",
     ///         Policies = new[]
     ///         {
     ///             my_policy.Id,
@@ -91,6 +96,7 @@ namespace Pulumi.Komodor
             var defaultOptions = new CustomResourceOptions
             {
                 Version = Utilities.Version,
+                PluginDownloadURL = "https://github.com/phillipedwards/pulumi-komodor/releases/download/v${VERSION}/",
             };
             var merged = CustomResourceOptions.Merge(defaultOptions, options);
             // Override the ID if one was specified for consistency with other language SDKs.

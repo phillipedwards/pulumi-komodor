@@ -24,7 +24,10 @@ namespace Pulumi.Komodor
     /// 
     /// return await Deployment.RunAsync(() =&gt; 
     /// {
-    ///     var my_role = new Komodor.Role("my-role");
+    ///     var my_role = new Komodor.Role("my-role", new()
+    ///     {
+    ///         Name = "my-role",
+    ///     });
     /// 
     /// });
     /// ```
@@ -67,6 +70,7 @@ namespace Pulumi.Komodor
             var defaultOptions = new CustomResourceOptions
             {
                 Version = Utilities.Version,
+                PluginDownloadURL = "https://github.com/phillipedwards/pulumi-komodor/releases/download/v${VERSION}/",
             };
             var merged = CustomResourceOptions.Merge(defaultOptions, options);
             // Override the ID if one was specified for consistency with other language SDKs.
