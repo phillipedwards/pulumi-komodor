@@ -25,28 +25,26 @@ import * as utilities from "./utilities";
  * import * as komodor from "@pulumi/komodor";
  *
  * const example_deploy_monitor = new komodor.Monitor("example-deploy-monitor", {
+ *     name: "example-deploy-monitor",
+ *     type: "deploy",
  *     active: true,
  *     sensors: `[{
- *   "cluster": "kind-kind",
- *   "exclude": {
- *     "namespaces": ["komodor"]
+ *   \\"cluster\\": \\"kind-kind\\",
+ *   \\"exclude\\": {
+ *     \\"namespaces\\": [\\"komodor\\"]
  *   },
- *   "namespaces": ["default"]
+ *   \\"namespaces\\": [\\"default\\"]
  * }]
- *
  * `,
  *     sinks: `{
- *   "slack": ["deployment-alerts"],
- *   "teams": ["Platform-Team"]
+ *   \\"slack\\": [\\"deployment-alerts\\"],
+ *   \\"teams\\": [\\"Platform-Team\\"]
  * }
- *
  * `,
  *     sinksOptions: `{
- *   "notifyOn": ["Failure", "Successful"]
+ *   \\"notifyOn\\": [\\"Failure\\", \\"Successful\\"]
  * }
- *
  * `,
- *     type: "deploy",
  * });
  * ```
  *
@@ -93,36 +91,33 @@ import * as utilities from "./utilities";
  * import * as komodor from "@pulumi/komodor";
  *
  * const example_availability_monitor = new komodor.Monitor("example-availability-monitor", {
+ *     name: "example-availability-monitor",
+ *     type: "availability",
  *     active: true,
  *     sensors: `[{
- *   "cluster": "kind-kind",
- *   "exclude": {
- *     "services": ["default/excluded-service"]
+ *   \\"cluster\\": \\"kind-kind\\",
+ *   \\"exclude\\": {
+ *     \\"services\\": [\\"default/excluded-service\\"]
  *   },
- *   "services": ["default/important-service"],
- *   "condition": "and",
- *   "namespaces": ["default"]
+ *   \\"services\\": [\\"default/important-service\\"],
+ *   \\"condition\\": \\"and\\",
+ *   \\"namespaces\\": [\\"default\\"]
  * }]
- *
  * `,
  *     sinks: `{
- *   "slack": ["availability-alerts"],
- *   "teams": ["SRE-Team"]
+ *   \\"slack\\": [\\"availability-alerts\\"],
+ *   \\"teams\\": [\\"SRE-Team\\"]
  * }
- *
+ * `,
+ *     variables: `{
+ *   \\"categories\\": [\\"Creating/Initializing\\", \\"Unhealthy - failed probes\\"],
+ *   \\"duration\\": 30,
+ *   \\"minAvailable\\": \\"100%\\"
+ * }
  * `,
  *     sinksOptions: `{
- *   "notifyOn": ["*"]
+ *   \\"notifyOn\\": [\\"*\\"]
  * }
- *
- * `,
- *     type: "availability",
- *     variables: `{
- *   "categories": ["Creating/Initializing", "Unhealthy - failed probes"],
- *   "duration": 30,
- *   "minAvailable": "100%"
- * }
- *
  * `,
  * });
  * ```
@@ -144,23 +139,21 @@ import * as utilities from "./utilities";
  * import * as komodor from "@pulumi/komodor";
  *
  * const example_node_monitor = new komodor.Monitor("example-node-monitor", {
+ *     name: "example-node-monitor",
+ *     type: "node",
  *     active: true,
  *     sensors: `[{
- *   "cluster": "kind-kind"
+ *   \\"cluster\\": \\"kind-kind\\"
  * }]
- *
  * `,
  *     sinks: `{
- *   "slack": ["node-alerts"]
+ *   \\"slack\\": [\\"node-alerts\\"]
  * }
- *
  * `,
- *     type: "node",
  *     variables: `{
- *   "duration": 60,
- *   "nodeCreationThreshold": "10m"
+ *   \\"duration\\": 60,
+ *   \\"nodeCreationThreshold\\": \\"10m\\"
  * }
- *
  * `,
  * });
  * ```
@@ -178,20 +171,19 @@ import * as utilities from "./utilities";
  * import * as komodor from "@pulumi/komodor";
  *
  * const example_workflow_monitor = new komodor.Monitor("example-workflow-monitor", {
+ *     name: "example-workflow-monitor",
+ *     type: "workflow",
  *     active: true,
  *     sensors: `[{
- *   "cluster": "kind-kind",
- *   "namespaces": ["workflow-namespace"]
+ *   \\"cluster\\": \\"kind-kind\\",
+ *   \\"namespaces\\": [\\"workflow-namespace\\"]
  * }]
- *
  * `,
  *     sinks: `{
- *   "slack": ["workflow-alerts"],
- *   "webhook": ["webhook-url"]
+ *   \\"slack\\": [\\"workflow-alerts\\"],
+ *   \\"webhook\\": [\\"webhook-url\\"]
  * }
- *
  * `,
- *     type: "workflow",
  * });
  * ```
  *

@@ -29,18 +29,19 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			my_policy, err := komodor.NewPolicy(ctx, "my-policy", &komodor.PolicyArgs{
+//				Name: pulumi.String("my-policy"),
 //				Statements: pulumi.String(`[{
-//	  "actions": [
-//	    "get:daemonset",
-//	    "edit:cronjob",
-//	    "delete:service",
-//	    "edit:job"
+//	  \"actions\": [
+//	    \"get:daemonset\",
+//	    \"edit:cronjob\",
+//	    \"delete:service\",
+//	    \"edit:job\"
 //	  ],
-//	  "resources": [{
-//	    "cluster": "kind-kind",
-//	    "namespaces": [
-//	      "default",
-//	      "komodor"
+//	  \"resources\": [{
+//	    \"cluster\": \"kind-kind\",
+//	    \"namespaces\": [
+//	      \"default\",
+//	      \"komodor\"
 //	    ]
 //	  }]
 //	}]
@@ -51,11 +52,14 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			my_role, err := komodor.NewRole(ctx, "my-role", nil)
+//			my_role, err := komodor.NewRole(ctx, "my-role", &komodor.RoleArgs{
+//				Name: pulumi.String("my-role"),
+//			})
 //			if err != nil {
 //				return err
 //			}
 //			_, err = komodor.NewPolicyRoleAttachment(ctx, "my-attachement", &komodor.PolicyRoleAttachmentArgs{
+//				Name: pulumi.String("test-attachement"),
 //				Policies: pulumi.StringArray{
 //					my_policy.ID(),
 //				},

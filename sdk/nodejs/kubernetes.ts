@@ -15,7 +15,7 @@ import * as utilities from "./utilities";
  * import * as pulumi from "@pulumi/pulumi";
  * import * as komodor from "@pulumi/komodor";
  *
- * const k8sCluster = new komodor.Kubernetes("k8sCluster", {clusterName: "my-cluster"});
+ * const k8sCluster = new komodor.Kubernetes("k8s_cluster", {clusterName: "my-cluster"});
  * ```
  */
 export class Kubernetes extends pulumi.CustomResource {

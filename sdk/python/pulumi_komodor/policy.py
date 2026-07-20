@@ -171,22 +171,23 @@ class Policy(pulumi.CustomResource):
         import pulumi
         import pulumi_komodor as komodor
 
-        my_policy = komodor.Policy("my-policy", statements=\"\"\"[{
-          "actions": [
-            "get:daemonset",
-            "edit:cronjob",
-            "delete:service",
-            "edit:job"
+        my_policy = komodor.Policy("my-policy",
+            name="my-policy",
+            statements=\"\"\"[{
+          \\"actions\\": [
+            \\"get:daemonset\\",
+            \\"edit:cronjob\\",
+            \\"delete:service\\",
+            \\"edit:job\\"
           ],
-          "resources": [{
-            "cluster": "kind-kind",
-            "namespaces": [
-              "default",
-              "komodor"
+          \\"resources\\": [{
+            \\"cluster\\": \\"kind-kind\\",
+            \\"namespaces\\": [
+              \\"default\\",
+              \\"komodor\\"
             ]
           }]
         }]
-
         \"\"\")
         ```
 
@@ -200,15 +201,16 @@ class Policy(pulumi.CustomResource):
         # Dynamic tags feature is not available by default.
         # When the feature is disabled, applying this policy will fail with error: `400 Bad Request`
         komo_example_dynamic_tags_policy = komodor.Policy("komo-example-dynamic-tags-policy",
+            name="komo-example-dynamic-tags-policy",
             type="dynamic_tag",
             tags={
                 "team": "super-heroes",
             },
             statements=\"\"\"[{
-          "actions": [
-            "view:all"
+          \\"actions\\": [
+            \\"view:all\\"
           ],
-          "resources": []
+          \\"resources\\": []
         }]
         \"\"\")
         ```
@@ -219,19 +221,22 @@ class Policy(pulumi.CustomResource):
         import pulumi
         import pulumi_komodor as komodor
 
+        # This example shows how to create a policy with a wildcard namespace pattern.
+        # wildcard policy type is not available by default.
+        # When the feature is disabled, applying this policy will fail with error: `400 Bad Request`
         komo_example_wildcard_policy = komodor.Policy("komo-example-wildcard-policy",
+            name="komo-example-wildcard-policy",
+            type="wildcard",
             statements=\"\"\"[{
-          "actions": [
-            "view:all"
+          \\"actions\\": [
+            \\"view:all\\"
           ],
-          "resources": [{
-            "cluster": "komo-example-cluster",
-            "namespacePattern": "prod-*"
+          \\"resources\\": [{
+            \\"cluster\\": \\"komo-example-cluster\\",
+            \\"namespacePattern\\": \\"prod-*\\"
           }]
         }]
-
-        \"\"\",
-            type="wildcard")
+        \"\"\")
         ```
 
         ### With Action
@@ -245,33 +250,33 @@ class Policy(pulumi.CustomResource):
             description="View pods",
             ruleset=\"\"\"[
           {
-            "apiGroups": [
-              "apps"
+            \\"apiGroups\\": [
+              \\"apps\\"
             ],
-            "resources": [
-              "pods"
+            \\"resources\\": [
+              \\"pods\\"
             ],
-            "verbs": [
-              "get",
-              "list"
+            \\"verbs\\": [
+              \\"get\\",
+              \\"list\\"
             ]
           }
         ]
-
         \"\"\")
-        komo_example_policy = komodor.Policy("komo-example-policy", statements=komo_example_pod_viewer.action.apply(lambda action: f\"\"\"[{{
-          "actions": [
-            "{action}"
+        komo_example_policy = komodor.Policy("komo-example-policy",
+            name="komo-example-policy",
+            statements=komo_example_pod_viewer.action.apply(lambda action: f\"\"\"[{{
+          \\"actions\\": [
+            \\"{action}\\"
           ],
-          "resources": [{{
-            "cluster": "komo-example-cluster",
-            "namespaces": [
-              "default",
-              "kube-system"
+          \\"resources\\": [{{
+            \\"cluster\\": \\"komo-example-cluster\\",
+            \\"namespaces\\": [
+              \\"default\\",
+              \\"kube-system\\"
             ]
           }}]
         }}]
-
         \"\"\"))
         ```
 
@@ -294,22 +299,23 @@ class Policy(pulumi.CustomResource):
         import pulumi
         import pulumi_komodor as komodor
 
-        my_policy = komodor.Policy("my-policy", statements=\"\"\"[{
-          "actions": [
-            "get:daemonset",
-            "edit:cronjob",
-            "delete:service",
-            "edit:job"
+        my_policy = komodor.Policy("my-policy",
+            name="my-policy",
+            statements=\"\"\"[{
+          \\"actions\\": [
+            \\"get:daemonset\\",
+            \\"edit:cronjob\\",
+            \\"delete:service\\",
+            \\"edit:job\\"
           ],
-          "resources": [{
-            "cluster": "kind-kind",
-            "namespaces": [
-              "default",
-              "komodor"
+          \\"resources\\": [{
+            \\"cluster\\": \\"kind-kind\\",
+            \\"namespaces\\": [
+              \\"default\\",
+              \\"komodor\\"
             ]
           }]
         }]
-
         \"\"\")
         ```
 
@@ -323,15 +329,16 @@ class Policy(pulumi.CustomResource):
         # Dynamic tags feature is not available by default.
         # When the feature is disabled, applying this policy will fail with error: `400 Bad Request`
         komo_example_dynamic_tags_policy = komodor.Policy("komo-example-dynamic-tags-policy",
+            name="komo-example-dynamic-tags-policy",
             type="dynamic_tag",
             tags={
                 "team": "super-heroes",
             },
             statements=\"\"\"[{
-          "actions": [
-            "view:all"
+          \\"actions\\": [
+            \\"view:all\\"
           ],
-          "resources": []
+          \\"resources\\": []
         }]
         \"\"\")
         ```
@@ -342,19 +349,22 @@ class Policy(pulumi.CustomResource):
         import pulumi
         import pulumi_komodor as komodor
 
+        # This example shows how to create a policy with a wildcard namespace pattern.
+        # wildcard policy type is not available by default.
+        # When the feature is disabled, applying this policy will fail with error: `400 Bad Request`
         komo_example_wildcard_policy = komodor.Policy("komo-example-wildcard-policy",
+            name="komo-example-wildcard-policy",
+            type="wildcard",
             statements=\"\"\"[{
-          "actions": [
-            "view:all"
+          \\"actions\\": [
+            \\"view:all\\"
           ],
-          "resources": [{
-            "cluster": "komo-example-cluster",
-            "namespacePattern": "prod-*"
+          \\"resources\\": [{
+            \\"cluster\\": \\"komo-example-cluster\\",
+            \\"namespacePattern\\": \\"prod-*\\"
           }]
         }]
-
-        \"\"\",
-            type="wildcard")
+        \"\"\")
         ```
 
         ### With Action
@@ -368,33 +378,33 @@ class Policy(pulumi.CustomResource):
             description="View pods",
             ruleset=\"\"\"[
           {
-            "apiGroups": [
-              "apps"
+            \\"apiGroups\\": [
+              \\"apps\\"
             ],
-            "resources": [
-              "pods"
+            \\"resources\\": [
+              \\"pods\\"
             ],
-            "verbs": [
-              "get",
-              "list"
+            \\"verbs\\": [
+              \\"get\\",
+              \\"list\\"
             ]
           }
         ]
-
         \"\"\")
-        komo_example_policy = komodor.Policy("komo-example-policy", statements=komo_example_pod_viewer.action.apply(lambda action: f\"\"\"[{{
-          "actions": [
-            "{action}"
+        komo_example_policy = komodor.Policy("komo-example-policy",
+            name="komo-example-policy",
+            statements=komo_example_pod_viewer.action.apply(lambda action: f\"\"\"[{{
+          \\"actions\\": [
+            \\"{action}\\"
           ],
-          "resources": [{{
-            "cluster": "komo-example-cluster",
-            "namespaces": [
-              "default",
-              "kube-system"
+          \\"resources\\": [{{
+            \\"cluster\\": \\"komo-example-cluster\\",
+            \\"namespaces\\": [
+              \\"default\\",
+              \\"kube-system\\"
             ]
           }}]
         }}]
-
         \"\"\"))
         ```
 

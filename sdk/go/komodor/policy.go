@@ -29,18 +29,19 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := komodor.NewPolicy(ctx, "my-policy", &komodor.PolicyArgs{
+//				Name: pulumi.String("my-policy"),
 //				Statements: pulumi.String(`[{
-//	  "actions": [
-//	    "get:daemonset",
-//	    "edit:cronjob",
-//	    "delete:service",
-//	    "edit:job"
+//	  \"actions\": [
+//	    \"get:daemonset\",
+//	    \"edit:cronjob\",
+//	    \"delete:service\",
+//	    \"edit:job\"
 //	  ],
-//	  "resources": [{
-//	    "cluster": "kind-kind",
-//	    "namespaces": [
-//	      "default",
-//	      "komodor"
+//	  \"resources\": [{
+//	    \"cluster\": \"kind-kind\",
+//	    \"namespaces\": [
+//	      \"default\",
+//	      \"komodor\"
 //	    ]
 //	  }]
 //	}]
@@ -75,15 +76,16 @@ import (
 //			// Dynamic tags feature is not available by default.
 //			// When the feature is disabled, applying this policy will fail with error: `400 Bad Request`
 //			_, err := komodor.NewPolicy(ctx, "komo-example-dynamic-tags-policy", &komodor.PolicyArgs{
+//				Name: pulumi.String("komo-example-dynamic-tags-policy"),
 //				Type: pulumi.String("dynamic_tag"),
 //				Tags: pulumi.StringMap{
 //					"team": pulumi.String("super-heroes"),
 //				},
 //				Statements: pulumi.String(`[{
-//	  "actions": [
-//	    "view:all"
+//	  \"actions\": [
+//	    \"view:all\"
 //	  ],
-//	  "resources": []
+//	  \"resources\": []
 //	}]
 //
 // `),
@@ -112,20 +114,24 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
+//			// This example shows how to create a policy with a wildcard namespace pattern.
+//			// wildcard policy type is not available by default.
+//			// When the feature is disabled, applying this policy will fail with error: `400 Bad Request`
 //			_, err := komodor.NewPolicy(ctx, "komo-example-wildcard-policy", &komodor.PolicyArgs{
+//				Name: pulumi.String("komo-example-wildcard-policy"),
+//				Type: pulumi.String("wildcard"),
 //				Statements: pulumi.String(`[{
-//	  "actions": [
-//	    "view:all"
+//	  \"actions\": [
+//	    \"view:all\"
 //	  ],
-//	  "resources": [{
-//	    "cluster": "komo-example-cluster",
-//	    "namespacePattern": "prod-*"
+//	  \"resources\": [{
+//	    \"cluster\": \"komo-example-cluster\",
+//	    \"namespacePattern\": \"prod-*\"
 //	  }]
 //	}]
 //
 // `),
 //
-//				Type: pulumi.String("wildcard"),
 //			})
 //			if err != nil {
 //				return err
@@ -157,20 +163,19 @@ import (
 //				Description: pulumi.String("View pods"),
 //				Ruleset: pulumi.String(`[
 //	  {
-//	    "apiGroups": [
-//	      "apps"
+//	    \"apiGroups\": [
+//	      \"apps\"
 //	    ],
-//	    "resources": [
-//	      "pods"
+//	    \"resources\": [
+//	      \"pods\"
 //	    ],
-//	    "verbs": [
-//	      "get",
-//	      "list"
+//	    \"verbs\": [
+//	      \"get\",
+//	      \"list\"
 //	    ]
 //	  }
 //
 // ]
-//
 // `),
 //
 //			})
@@ -178,16 +183,17 @@ import (
 //				return err
 //			}
 //			_, err = komodor.NewPolicy(ctx, "komo-example-policy", &komodor.PolicyArgs{
+//				Name: pulumi.String("komo-example-policy"),
 //				Statements: komo_example_pod_viewer.Action.ApplyT(func(action string) (string, error) {
 //					return fmt.Sprintf(`[{
-//	  "actions": [
-//	    "%v"
+//	  \"actions\": [
+//	    \"%v\"
 //	  ],
-//	  "resources": [{
-//	    "cluster": "komo-example-cluster",
-//	    "namespaces": [
-//	      "default",
-//	      "kube-system"
+//	  \"resources\": [{
+//	    \"cluster\": \"komo-example-cluster\",
+//	    \"namespaces\": [
+//	      \"default\",
+//	      \"kube-system\"
 //	    ]
 //	  }]
 //	}]

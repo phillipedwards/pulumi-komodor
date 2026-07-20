@@ -44,11 +44,28 @@ To use from .NET, install using `dotnet add package`:
 dotnet add package Pulumi.Komodor
 ```
 
+## Resources
+
+This provider exposes the following resources:
+
+- `komodor.Action`
+- `komodor.Kubernetes`
+- `komodor.Monitor`
+- `komodor.Policy`
+- `komodor.PolicyRoleAttachment`
+- `komodor.Role`
+
+And the following data sources:
+
+- `komodor.getKubernetes`
+- `komodor.getPolicy`
+- `komodor.getRole`
+
 ## Configuration
 
 The following configuration points are available for the `komodor` provider:
 
-- `komodor:apiKey` (environment: `KOMODOR_API_KEY`) - the API key for authenticating with Komodor
+- `komodor:apiKey` (environment: `KOMODOR_API_KEY`) - the API key used to authenticate with Komodor
 
 ## Reference
 

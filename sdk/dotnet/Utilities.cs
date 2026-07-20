@@ -53,6 +53,7 @@ namespace Pulumi.Komodor
         {
             var dst = src ?? new global::Pulumi.InvokeOptions{};
             dst.Version = src?.Version ?? Version;
+            dst.PluginDownloadURL = src?.PluginDownloadURL ?? "https://github.com/phillipedwards/pulumi-komodor/releases/download/v${VERSION}/";
             return dst;
         }
 
@@ -60,6 +61,7 @@ namespace Pulumi.Komodor
         {
             var dst = src ?? new global::Pulumi.InvokeOutputOptions{};
             dst.Version = src?.Version ?? Version;
+            dst.PluginDownloadURL = src?.PluginDownloadURL ?? "https://github.com/phillipedwards/pulumi-komodor/releases/download/v${VERSION}/";
             return dst;
         }
 

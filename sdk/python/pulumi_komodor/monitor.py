@@ -323,28 +323,26 @@ class Monitor(pulumi.CustomResource):
         import pulumi_komodor as komodor
 
         example_deploy_monitor = komodor.Monitor("example-deploy-monitor",
+            name="example-deploy-monitor",
+            type="deploy",
             active=True,
             sensors=\"\"\"[{
-          "cluster": "kind-kind",
-          "exclude": {
-            "namespaces": ["komodor"]
+          \\"cluster\\": \\"kind-kind\\",
+          \\"exclude\\": {
+            \\"namespaces\\": [\\"komodor\\"]
           },
-          "namespaces": ["default"]
+          \\"namespaces\\": [\\"default\\"]
         }]
-
         \"\"\",
             sinks=\"\"\"{
-          "slack": ["deployment-alerts"],
-          "teams": ["Platform-Team"]
+          \\"slack\\": [\\"deployment-alerts\\"],
+          \\"teams\\": [\\"Platform-Team\\"]
         }
-
         \"\"\",
             sinks_options=\"\"\"{
-          "notifyOn": ["Failure", "Successful"]
+          \\"notifyOn\\": [\\"Failure\\", \\"Successful\\"]
         }
-
-        \"\"\",
-            type="deploy")
+        \"\"\")
         ```
 
         ***
@@ -390,36 +388,33 @@ class Monitor(pulumi.CustomResource):
         import pulumi_komodor as komodor
 
         example_availability_monitor = komodor.Monitor("example-availability-monitor",
+            name="example-availability-monitor",
+            type="availability",
             active=True,
             sensors=\"\"\"[{
-          "cluster": "kind-kind",
-          "exclude": {
-            "services": ["default/excluded-service"]
+          \\"cluster\\": \\"kind-kind\\",
+          \\"exclude\\": {
+            \\"services\\": [\\"default/excluded-service\\"]
           },
-          "services": ["default/important-service"],
-          "condition": "and",
-          "namespaces": ["default"]
+          \\"services\\": [\\"default/important-service\\"],
+          \\"condition\\": \\"and\\",
+          \\"namespaces\\": [\\"default\\"]
         }]
-
         \"\"\",
             sinks=\"\"\"{
-          "slack": ["availability-alerts"],
-          "teams": ["SRE-Team"]
+          \\"slack\\": [\\"availability-alerts\\"],
+          \\"teams\\": [\\"SRE-Team\\"]
         }
-
+        \"\"\",
+            variables=\"\"\"{
+          \\"categories\\": [\\"Creating/Initializing\\", \\"Unhealthy - failed probes\\"],
+          \\"duration\\": 30,
+          \\"minAvailable\\": \\"100%\\"
+        }
         \"\"\",
             sinks_options=\"\"\"{
-          "notifyOn": ["*"]
+          \\"notifyOn\\": [\\"*\\"]
         }
-
-        \"\"\",
-            type="availability",
-            variables=\"\"\"{
-          "categories": ["Creating/Initializing", "Unhealthy - failed probes"],
-          "duration": 30,
-          "minAvailable": "100%"
-        }
-
         \"\"\")
         ```
 
@@ -440,23 +435,21 @@ class Monitor(pulumi.CustomResource):
         import pulumi_komodor as komodor
 
         example_node_monitor = komodor.Monitor("example-node-monitor",
+            name="example-node-monitor",
+            type="node",
             active=True,
             sensors=\"\"\"[{
-          "cluster": "kind-kind"
+          \\"cluster\\": \\"kind-kind\\"
         }]
-
         \"\"\",
             sinks=\"\"\"{
-          "slack": ["node-alerts"]
+          \\"slack\\": [\\"node-alerts\\"]
         }
-
         \"\"\",
-            type="node",
             variables=\"\"\"{
-          "duration": 60,
-          "nodeCreationThreshold": "10m"
+          \\"duration\\": 60,
+          \\"nodeCreationThreshold\\": \\"10m\\"
         }
-
         \"\"\")
         ```
 
@@ -473,20 +466,19 @@ class Monitor(pulumi.CustomResource):
         import pulumi_komodor as komodor
 
         example_workflow_monitor = komodor.Monitor("example-workflow-monitor",
+            name="example-workflow-monitor",
+            type="workflow",
             active=True,
             sensors=\"\"\"[{
-          "cluster": "kind-kind",
-          "namespaces": ["workflow-namespace"]
+          \\"cluster\\": \\"kind-kind\\",
+          \\"namespaces\\": [\\"workflow-namespace\\"]
         }]
-
         \"\"\",
             sinks=\"\"\"{
-          "slack": ["workflow-alerts"],
-          "webhook": ["webhook-url"]
+          \\"slack\\": [\\"workflow-alerts\\"],
+          \\"webhook\\": [\\"webhook-url\\"]
         }
-
-        \"\"\",
-            type="workflow")
+        \"\"\")
         ```
 
         ***
@@ -530,28 +522,26 @@ class Monitor(pulumi.CustomResource):
         import pulumi_komodor as komodor
 
         example_deploy_monitor = komodor.Monitor("example-deploy-monitor",
+            name="example-deploy-monitor",
+            type="deploy",
             active=True,
             sensors=\"\"\"[{
-          "cluster": "kind-kind",
-          "exclude": {
-            "namespaces": ["komodor"]
+          \\"cluster\\": \\"kind-kind\\",
+          \\"exclude\\": {
+            \\"namespaces\\": [\\"komodor\\"]
           },
-          "namespaces": ["default"]
+          \\"namespaces\\": [\\"default\\"]
         }]
-
         \"\"\",
             sinks=\"\"\"{
-          "slack": ["deployment-alerts"],
-          "teams": ["Platform-Team"]
+          \\"slack\\": [\\"deployment-alerts\\"],
+          \\"teams\\": [\\"Platform-Team\\"]
         }
-
         \"\"\",
             sinks_options=\"\"\"{
-          "notifyOn": ["Failure", "Successful"]
+          \\"notifyOn\\": [\\"Failure\\", \\"Successful\\"]
         }
-
-        \"\"\",
-            type="deploy")
+        \"\"\")
         ```
 
         ***
@@ -597,36 +587,33 @@ class Monitor(pulumi.CustomResource):
         import pulumi_komodor as komodor
 
         example_availability_monitor = komodor.Monitor("example-availability-monitor",
+            name="example-availability-monitor",
+            type="availability",
             active=True,
             sensors=\"\"\"[{
-          "cluster": "kind-kind",
-          "exclude": {
-            "services": ["default/excluded-service"]
+          \\"cluster\\": \\"kind-kind\\",
+          \\"exclude\\": {
+            \\"services\\": [\\"default/excluded-service\\"]
           },
-          "services": ["default/important-service"],
-          "condition": "and",
-          "namespaces": ["default"]
+          \\"services\\": [\\"default/important-service\\"],
+          \\"condition\\": \\"and\\",
+          \\"namespaces\\": [\\"default\\"]
         }]
-
         \"\"\",
             sinks=\"\"\"{
-          "slack": ["availability-alerts"],
-          "teams": ["SRE-Team"]
+          \\"slack\\": [\\"availability-alerts\\"],
+          \\"teams\\": [\\"SRE-Team\\"]
         }
-
+        \"\"\",
+            variables=\"\"\"{
+          \\"categories\\": [\\"Creating/Initializing\\", \\"Unhealthy - failed probes\\"],
+          \\"duration\\": 30,
+          \\"minAvailable\\": \\"100%\\"
+        }
         \"\"\",
             sinks_options=\"\"\"{
-          "notifyOn": ["*"]
+          \\"notifyOn\\": [\\"*\\"]
         }
-
-        \"\"\",
-            type="availability",
-            variables=\"\"\"{
-          "categories": ["Creating/Initializing", "Unhealthy - failed probes"],
-          "duration": 30,
-          "minAvailable": "100%"
-        }
-
         \"\"\")
         ```
 
@@ -647,23 +634,21 @@ class Monitor(pulumi.CustomResource):
         import pulumi_komodor as komodor
 
         example_node_monitor = komodor.Monitor("example-node-monitor",
+            name="example-node-monitor",
+            type="node",
             active=True,
             sensors=\"\"\"[{
-          "cluster": "kind-kind"
+          \\"cluster\\": \\"kind-kind\\"
         }]
-
         \"\"\",
             sinks=\"\"\"{
-          "slack": ["node-alerts"]
+          \\"slack\\": [\\"node-alerts\\"]
         }
-
         \"\"\",
-            type="node",
             variables=\"\"\"{
-          "duration": 60,
-          "nodeCreationThreshold": "10m"
+          \\"duration\\": 60,
+          \\"nodeCreationThreshold\\": \\"10m\\"
         }
-
         \"\"\")
         ```
 
@@ -680,20 +665,19 @@ class Monitor(pulumi.CustomResource):
         import pulumi_komodor as komodor
 
         example_workflow_monitor = komodor.Monitor("example-workflow-monitor",
+            name="example-workflow-monitor",
+            type="workflow",
             active=True,
             sensors=\"\"\"[{
-          "cluster": "kind-kind",
-          "namespaces": ["workflow-namespace"]
+          \\"cluster\\": \\"kind-kind\\",
+          \\"namespaces\\": [\\"workflow-namespace\\"]
         }]
-
         \"\"\",
             sinks=\"\"\"{
-          "slack": ["workflow-alerts"],
-          "webhook": ["webhook-url"]
+          \\"slack\\": [\\"workflow-alerts\\"],
+          \\"webhook\\": [\\"webhook-url\\"]
         }
-
-        \"\"\",
-            type="workflow")
+        \"\"\")
         ```
 
         ***

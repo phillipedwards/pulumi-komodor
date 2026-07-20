@@ -121,24 +121,27 @@ class PolicyRoleAttachment(pulumi.CustomResource):
         import pulumi
         import pulumi_komodor as komodor
 
-        my_policy = komodor.Policy("my-policy", statements=\"\"\"[{
-          "actions": [
-            "get:daemonset",
-            "edit:cronjob",
-            "delete:service",
-            "edit:job"
+        my_policy = komodor.Policy("my-policy",
+            name="my-policy",
+            statements=\"\"\"[{
+          \\"actions\\": [
+            \\"get:daemonset\\",
+            \\"edit:cronjob\\",
+            \\"delete:service\\",
+            \\"edit:job\\"
           ],
-          "resources": [{
-            "cluster": "kind-kind",
-            "namespaces": [
-              "default",
-              "komodor"
+          \\"resources\\": [{
+            \\"cluster\\": \\"kind-kind\\",
+            \\"namespaces\\": [
+              \\"default\\",
+              \\"komodor\\"
             ]
           }]
         }]
         \"\"\")
-        my_role = komodor.Role("my-role")
+        my_role = komodor.Role("my-role", name="my-role")
         my_attachement = komodor.PolicyRoleAttachment("my-attachement",
+            name="test-attachement",
             policies=[my_policy.id],
             role=my_role.id)
         ```
@@ -162,24 +165,27 @@ class PolicyRoleAttachment(pulumi.CustomResource):
         import pulumi
         import pulumi_komodor as komodor
 
-        my_policy = komodor.Policy("my-policy", statements=\"\"\"[{
-          "actions": [
-            "get:daemonset",
-            "edit:cronjob",
-            "delete:service",
-            "edit:job"
+        my_policy = komodor.Policy("my-policy",
+            name="my-policy",
+            statements=\"\"\"[{
+          \\"actions\\": [
+            \\"get:daemonset\\",
+            \\"edit:cronjob\\",
+            \\"delete:service\\",
+            \\"edit:job\\"
           ],
-          "resources": [{
-            "cluster": "kind-kind",
-            "namespaces": [
-              "default",
-              "komodor"
+          \\"resources\\": [{
+            \\"cluster\\": \\"kind-kind\\",
+            \\"namespaces\\": [
+              \\"default\\",
+              \\"komodor\\"
             ]
           }]
         }]
         \"\"\")
-        my_role = komodor.Role("my-role")
+        my_role = komodor.Role("my-role", name="my-role")
         my_attachement = komodor.PolicyRoleAttachment("my-attachement",
+            name="test-attachement",
             policies=[my_policy.id],
             role=my_role.id)
         ```

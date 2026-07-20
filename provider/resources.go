@@ -20,10 +20,10 @@ import (
 	// Allow embedding bridge-metadata.json in the provider.
 	_ "embed"
 
+	komodor "github.com/komodorio/terraform-provider-komodor/komodor"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge/tokens"
 	shimv2 "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim/sdk-v2"
-	komodor "github.com/komodorio/terraform-provider-komodor/komodor"
 
 	"github.com/phillipedwards/pulumi-komodor/provider/pkg/version"
 )
@@ -81,6 +81,18 @@ func Provider() tfbridge.ProviderInfo {
 			RespectSchemaVersion: true,
 			PackageReferences: map[string]string{
 				"Pulumi": "3.*",
+			},
+		},
+		Resources: map[string]*tfbridge.ResourceInfo{
+			// The "action" resource has an "action" attribute, which the .NET codegen
+			// otherwise turns into a member named the same as its enclosing "Action"
+			// class - illegal in C# (CS0542). Rename it for .NET only.
+			"komodor_action": {
+				Fields: map[string]*tfbridge.SchemaInfo{
+					"action": {
+						CSharpName: "ActionName",
+					},
+				},
 			},
 		},
 	}

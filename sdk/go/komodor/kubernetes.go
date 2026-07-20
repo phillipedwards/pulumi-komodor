@@ -30,7 +30,7 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := komodor.NewKubernetes(ctx, "k8sCluster", &komodor.KubernetesArgs{
+//			_, err := komodor.NewKubernetes(ctx, "k8s_cluster", &komodor.KubernetesArgs{
 //				ClusterName: pulumi.String("my-cluster"),
 //			})
 //			if err != nil {
