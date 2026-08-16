@@ -11,7 +11,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as komodor from "@pulumi/komodor";
+ * import * as komodor from "@phillipedwards/pulumi-komodor";
  *
  * const dataK8sCluster = komodor.getKubernetes({
  *     clusterName: "my-cluster",
@@ -55,7 +55,7 @@ export interface GetKubernetesResult {
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as komodor from "@pulumi/komodor";
+ * import * as komodor from "@phillipedwards/pulumi-komodor";
  *
  * const dataK8sCluster = komodor.getKubernetes({
  *     clusterName: "my-cluster",

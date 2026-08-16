@@ -63,12 +63,8 @@ type LookupKubernetesResult struct {
 }
 
 func LookupKubernetesOutput(ctx *pulumi.Context, args LookupKubernetesOutputArgs, opts ...pulumi.InvokeOption) LookupKubernetesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupKubernetesResultOutput, error) {
-			args := v.(LookupKubernetesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("komodor:index/getKubernetes:getKubernetes", args, LookupKubernetesResultOutput{}, options).(LookupKubernetesResultOutput), nil
-		}).(LookupKubernetesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("komodor:index/getKubernetes:getKubernetes", args, LookupKubernetesResultOutput{}, options).(LookupKubernetesResultOutput)
 }
 
 // A collection of arguments for invoking getKubernetes.

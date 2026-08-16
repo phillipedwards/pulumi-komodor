@@ -11,7 +11,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as komodor from "@pulumi/komodor";
+ * import * as komodor from "@phillipedwards/pulumi-komodor";
  *
  * const dataK8sCluster = komodor.getPolicy({
  *     name: "my-policy",
@@ -61,7 +61,7 @@ export interface GetPolicyResult {
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as komodor from "@pulumi/komodor";
+ * import * as komodor from "@phillipedwards/pulumi-komodor";
  *
  * const dataK8sCluster = komodor.getPolicy({
  *     name: "my-policy",

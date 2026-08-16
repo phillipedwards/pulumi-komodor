@@ -60,6 +60,10 @@ func Provider() tfbridge.ProviderInfo {
 		GitHubOrg:         "komodorio",
 		MetadataInfo:      tfbridge.NewProviderMetadata(metadata),
 		JavaScript: &tfbridge.JavaScriptInfo{
+			// The codegen default would be "@pulumi/komodor", but the "@pulumi"
+			// npm scope belongs to Pulumi and this provider is published from a
+			// personal repo, so scope the package to the publisher instead.
+			PackageName:          "@phillipedwards/pulumi-komodor",
 			RespectSchemaVersion: true,
 		},
 		Python: &tfbridge.PythonInfo{

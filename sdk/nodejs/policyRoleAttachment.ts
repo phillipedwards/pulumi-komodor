@@ -11,7 +11,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as komodor from "@pulumi/komodor";
+ * import * as komodor from "@phillipedwards/pulumi-komodor";
  *
  * const my_policy = new komodor.Policy("my-policy", {
  *     name: "my-policy",

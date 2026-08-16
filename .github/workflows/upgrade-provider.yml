@@ -18,9 +18,9 @@ on:
           See https://go.dev/ref/mod#versions for valid versions. E.g. "v0.1.0", "main", "da25dec".
         default: main
         type: string
-  schedule:
-    # 3 AM UTC ~ 8 PM PDT / 7 PM PST daily. Time chosen to run during off hours.
-    - cron: 0 3 * * *
+  # The daily cron was removed: this workflow authenticates to Pulumi's internal ESC organization,
+  # so it fails every run in this repo. Left dispatch-only rather than deleted so it is still
+  # available if the ESC configuration is ever replaced.
 
 env:
   PULUMI_API: https://api.pulumi-staging.io

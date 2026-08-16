@@ -22,7 +22,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as komodor from "@pulumi/komodor";
+ * import * as komodor from "@phillipedwards/pulumi-komodor";
  *
  * const example_deploy_monitor = new komodor.Monitor("example-deploy-monitor", {
  *     name: "example-deploy-monitor",
@@ -88,7 +88,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as komodor from "@pulumi/komodor";
+ * import * as komodor from "@phillipedwards/pulumi-komodor";
  *
  * const example_availability_monitor = new komodor.Monitor("example-availability-monitor", {
  *     name: "example-availability-monitor",
@@ -136,7 +136,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as komodor from "@pulumi/komodor";
+ * import * as komodor from "@phillipedwards/pulumi-komodor";
  *
  * const example_node_monitor = new komodor.Monitor("example-node-monitor", {
  *     name: "example-node-monitor",
@@ -168,7 +168,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as komodor from "@pulumi/komodor";
+ * import * as komodor from "@phillipedwards/pulumi-komodor";
  *
  * const example_workflow_monitor = new komodor.Monitor("example-workflow-monitor", {
  *     name: "example-workflow-monitor",

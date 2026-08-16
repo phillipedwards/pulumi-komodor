@@ -11,7 +11,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as komodor from "@pulumi/komodor";
+ * import * as komodor from "@phillipedwards/pulumi-komodor";
  *
  * const komo_example_pod_viewer = new komodor.Action("komo-example-pod-viewer", {
  *     action: "pod-viewer",

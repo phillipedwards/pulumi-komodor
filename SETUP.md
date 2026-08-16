@@ -68,7 +68,7 @@ make test               # Run integration/example tests (requires `make build` f
     cd examples/my-example/ts
     pulumi new typescript
     npm install
-    yarn link @pulumi/komodor
+    yarn link @phillipedwards/pulumi-komodor
     ```
 
 1. Set your Komodor API key:
