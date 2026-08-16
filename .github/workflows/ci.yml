@@ -83,6 +83,8 @@ jobs:
           if ! git diff --quiet; then
             echo "::error::generated files are out of date - run 'make generate' and commit the result"
             git diff --stat
+            echo "----- patch -----"
+            git diff | head -500
             exit 1
           fi
 
