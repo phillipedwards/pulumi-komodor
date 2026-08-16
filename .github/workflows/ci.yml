@@ -44,7 +44,13 @@ jobs:
 
       # Runs golangci-lint 1.64.8 as pinned in .config/mise.toml. .golangci.yml is in the v1
       # config format, so a v2 binary from $PATH would fail to load it.
+      #
+      # This module pulls in the whole terraform-bridge dependency graph and golangci-lint gets
+      # OOM-killed at default settings, so hold its parallelism and heap growth down.
       - name: Lint
+        env:
+          GOGC: "20"
+          GOMAXPROCS: "2"
         run: make lint_provider
 
   build:
@@ -76,16 +82,32 @@ jobs:
       - name: Regenerate schema and SDKs
         run: make generate
 
-      # schema.json and the SDKs under sdk/ are committed. If regenerating them produces a diff,
-      # someone changed provider/resources.go without running `make generate`.
-      - name: Check generated files are up to date
+      # schema.json is what gets embedded in the released provider binary, so it must match
+      # resources.go. Checked on its own rather than over all of sdk/, because the language
+      # codegen emits different output on different toolchains (the Go invoke helpers and the
+      # dotnet dotfiles differ between a macOS dev box and this runner even at identical
+      # pulumi/pkg versions), which would make a whole-tree check fail for reasons unrelated
+      # to the change under test.
+      - name: Check schema is up to date
         run: |
-          if ! git diff --quiet; then
-            echo "::error::generated files are out of date - run 'make generate' and commit the result"
-            git diff --stat
+          if ! git diff --quiet -- provider/cmd/pulumi-resource-komodor; then
+            echo "::error::schema is out of date - run 'make generate' and commit the result"
+            git diff --stat -- provider/cmd/pulumi-resource-komodor
             echo "----- patch -----"
-            git diff | head -500
+            git diff -- provider/cmd/pulumi-resource-komodor | head -300
             exit 1
+          fi
+          echo "schema.json and bridge-metadata.json are current"
+
+      # Reported but not enforced, for the codegen-nondeterminism reason above.
+      - name: Report SDK drift
+        if: always()
+        run: |
+          if ! git diff --quiet -- sdk; then
+            echo "::warning::regenerating produced SDK changes; see diffstat below"
+            git diff --stat -- sdk
+          else
+            echo "no SDK drift"
           fi
 
       - name: Build SDKs
