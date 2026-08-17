@@ -6,7 +6,7 @@
         "komodor",
         "category/cloud"
     ],
-    "homepage": "https://www.pulumi.com",
+    "homepage": "https://github.com/phillipedwards/pulumi-komodor",
     "repository": "https://github.com/phillipedwards/pulumi-komodor",
     "license": "Apache-2.0",
     "scripts": {
