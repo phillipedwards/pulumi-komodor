@@ -46,11 +46,17 @@ func Provider() tfbridge.ProviderInfo {
 	prov := tfbridge.ProviderInfo{
 		P: shimv2.NewProvider(komodor.Provider()),
 
-		Name:              "komodor",
-		Version:           version.Version,
-		DisplayName:       "Komodor",
-		Publisher:         "phillipedwards",
-		LogoURL:           "",
+		Name:        "komodor",
+		Version:     version.Version,
+		DisplayName: "Komodor",
+		Publisher:   "phillipedwards",
+		// Served from this repo, pinned to a commit rather than a branch: the dotnet
+		// codegen fetches this over HTTP at generate time and writes the response body
+		// straight into sdk/dotnet/logo.png without checking the status code or the
+		// format, so a URL that ever 404s silently produces a corrupt icon. The source
+		// image is assets/komodor-logo.png; to change it, commit the new image and
+		// repoint this at the commit that added it.
+		LogoURL:           "https://raw.githubusercontent.com/phillipedwards/pulumi-komodor/6bdabb0d71c7b39da9e22d74dbe01fc7cbdbeb17/assets/komodor-logo.png",
 		PluginDownloadURL: "https://github.com/phillipedwards/pulumi-komodor/releases/download/v${VERSION}/",
 		Description:       "A Pulumi package for creating and managing Komodor resources.",
 		Keywords:          []string{"komodor", "category/cloud"},

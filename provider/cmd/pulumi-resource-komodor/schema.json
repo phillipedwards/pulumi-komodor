@@ -10,6 +10,7 @@
     "license": "Apache-2.0",
     "attribution": "This Pulumi package is based on the [`komodor` Terraform Provider](https://github.com/komodorio/terraform-provider-komodor).",
     "repository": "https://github.com/phillipedwards/pulumi-komodor",
+    "logoUrl": "https://raw.githubusercontent.com/phillipedwards/pulumi-komodor/6bdabb0d71c7b39da9e22d74dbe01fc7cbdbeb17/assets/komodor-logo.png",
     "pluginDownloadURL": "https://github.com/phillipedwards/pulumi-komodor/releases/download/v${VERSION}/",
     "publisher": "phillipedwards",
     "meta": {
