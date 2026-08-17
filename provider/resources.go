@@ -55,7 +55,7 @@ func Provider() tfbridge.ProviderInfo {
 		Description:       "A Pulumi package for creating and managing Komodor resources.",
 		Keywords:          []string{"komodor", "category/cloud"},
 		License:           "Apache-2.0",
-		Homepage:          "https://www.pulumi.com",
+		Homepage:          "https://github.com/phillipedwards/pulumi-komodor",
 		Repository:        "https://github.com/phillipedwards/pulumi-komodor",
 		GitHubOrg:         "komodorio",
 		MetadataInfo:      tfbridge.NewProviderMetadata(metadata),
