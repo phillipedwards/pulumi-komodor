@@ -161,4 +161,4 @@ jobs:
           # (lib/utils/oidc.js) returns silently after logging at verbose or silly level, so at the
           # default loglevel a rejected token exchange is indistinguishable from six other causes
           # and surfaces only as a bare ENEEDAUTH. See https://github.com/npm/cli/issues/9088.
-          npm publish --access public --loglevel verbose
+          npm publish --access public
